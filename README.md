@@ -1,3 +1,3 @@
-# READ ME
+#Asteroid
 
-Asteroid
+Prototype for asteroid multiplayer.
