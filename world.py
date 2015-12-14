@@ -1,5 +1,6 @@
 from PodSixNet.Connection import ConnectionListener, connection
 from time import sleep
+import socket
 
 import pygame
 import util
@@ -60,10 +61,14 @@ class World(object, ConnectionListener):
         print("HOST CLIENT: %s " % self.host)
 
     def select_server(self):
-        address=raw_input("Address of Server: ")
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #Move into PodSixNet
+        s.connect(("8.8.8.8" , 80)) #Move into PodSixNet get_ip
+
+        address=raw_input("Address of Server(%s:8000): " %(s.getsockname()[0]))
         try:
             if not address:
-                host, port="localhost", 8000
+                host, port=(s.getsockname()[0]) , 8000
+                print("Using default IP and Port")
             else:
                 host,port=address.split(":")
             self.Connect((host, int(port)))

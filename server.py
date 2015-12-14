@@ -2,6 +2,7 @@ import pygame
 import serversprite
 import asteroid
 import random
+import socket
 
 import PodSixNet.Channel
 import PodSixNet.Server
@@ -110,12 +111,18 @@ lastCurrentTime = pygame.time.get_ticks()
 ticks = 0
 delta = 0
 
-address=raw_input("Host:Port (localhost:8000): ")
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #Move into PodSixNet
+s.connect(("8.8.8.8" , 80)) #Move into PodSixNet get_ip
+
+address=raw_input("Host:Port (%s:8000): " %(s.getsockname()[0]))
 if not address:
-    host,port="localhost", 8000
+    host,port=(s.getsockname()[0]), 8000
+    print("Using default IP and Port")
 else:
     host,port = address.split(":")
 gameServe = GameServer(localaddr = (host, int(port)))
+
+print("SERVER START")
 
 while True:
     currentTime = pygame.time.get_ticks()
