@@ -1,3 +1,3 @@
 #Asteroid
 
-Prototype for asteroid multiplayer.
+Development build of pygame game engine.

@@ -6,11 +6,6 @@ import pygame
 display_width = 500
 display_height = 500
 
-#display_width = 1920 * 2 - 50
-#display_height = display_width / 16 * 9 / 2 - 50
-
-#display_width = 1920
-#display_height = display_width / 16 * 9
 
 #--------COLOURS--------#
 
