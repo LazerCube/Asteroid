@@ -14,7 +14,7 @@ class player(sprite.Sprite):
         self.points = [[0,0],[-5,5],[-5,5],[0,-10],[0,-10],[5,5],[5,5],[0,0]]
 
         self.velocity = [0,0]
-        self.scale = 2
+        self.scale = 1
         self.angle = 0
 
 
