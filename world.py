@@ -1,24 +1,29 @@
 import pygame
+import worldstate
+import menustate
+import gamestate
 import util
 
-class World(object):
+
+class World():
     def __init__(self, SURFACE):
         self.SURFACE = SURFACE
         self.WIDTH = SURFACE.get_width()
         self.HEIGHT = SURFACE.get_height()
+        self.GAMESTATE = util.enum(menustate.MenuState(self),
+                                   gamestate.GameState(self),
+                                   'STATE_EXIT')
 
-        # Inputs
-        self.quit = False
+        self.state = self.GAMESTATE.reverse_mapping[0]
+        self._state = None
 
-    def Update(self):
+    def handleInput(self):
+        self._state = (self.state.handleInput())
+        self.state = self._state
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.quit = true
+    def update(self):
+        self.handleInput()
+        self.state.update()
 
-            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-                if event.key == pygame.K_ESCAPE:
-                    self.quit = event.type == pygame.KEYDOWN
-
-    def draw(self):
-        pass
+    def render(self):
+        self.state.render()

@@ -10,6 +10,7 @@ class _Game():
         self.world = world.World(SURFACE)
         self.width = self.world.WIDTH
         self.height = self.world.HEIGHT
+        self.EXIT = False
         self._Run()
 
     def _Draw_Hud(self):
@@ -28,13 +29,13 @@ class _Game():
         ticks = 0
         delta = 0
 
-        while not(self.world.quit):
+        while not(self.EXIT):
             _current_time = pygame.time.get_ticks()
             delta += ((_current_time - _previous_time) / _MS_PER_TICK)
             _previous_time = _current_time
 
             while(delta >= 1):
-                self.world.Update()
+                self.world.update()
                 ticks += 1
                 delta -= 1
 
@@ -49,7 +50,7 @@ class _Game():
 
     def _Render(self):
         self.SURFACE.fill(util.BLACK)
-        self.world.draw()
+        self.world.render()
         self._Draw_Hud()
         self._Draw_Info()
 
@@ -62,7 +63,6 @@ def _Initiate():
         [util.SURFACE_WIDTH, util.SURFACE_HEIGHT], pygame.HWSURFACE |
         pygame.DOUBLEBUF)
     pygame.display.set_caption(util.SURFACE_CAPTION)
-
     game = _Game(SURFACE)
 
     pygame.quit()
