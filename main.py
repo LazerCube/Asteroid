@@ -13,12 +13,6 @@ class _Game():
         self.EXIT = False
         self._Run()
 
-    def _Draw_Hud(self):
-        pass
-
-    def _Draw_Info(self):
-        pass
-
     def _Run(self):
         _MS_PER_TICK = 15.625
         _previous_time = pygame.time.get_ticks()
@@ -51,8 +45,6 @@ class _Game():
     def _Render(self):
         self.SURFACE.fill(util.BLACK)
         self.world.render()
-        self._Draw_Hud()
-        self._Draw_Info()
 
         pygame.display.flip()
 
