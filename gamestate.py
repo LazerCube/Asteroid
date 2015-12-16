@@ -1,6 +1,6 @@
 import pygame
-import util
 import worldstate
+import util
 
 
 class GameState(worldstate.WorldState):
@@ -8,19 +8,15 @@ class GameState(worldstate.WorldState):
         super(GameState, self).__init__(world)
 
     def handleInput(self):
-        # super(GameState, self).handleInput()
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    return self.world.GAMESTATE.reverse_mapping[0]
+        super(GameState, self).handleInput()
+        if (self.left):
+            self.left = False
+            return self.world.GAMESTATE.reverse_mapping[0]
         return self.world.GAMESTATE.reverse_mapping[1]
 
     def update(self):
-        # super(GameState, self).update()
-        self.handleInput()
-
+        super(GameState, self).update()
         util.BLACK = (140, 250, 10)
 
     def render(self):
-        # super(GameState, self).render()
-        pass
+        super(GameState, self).render()

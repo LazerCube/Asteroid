@@ -10,7 +10,6 @@ class _Game():
         self.world = world.World(SURFACE)
         self.width = self.world.WIDTH
         self.height = self.world.HEIGHT
-        self.EXIT = False
         self._Run()
 
     def _Run(self):
@@ -23,7 +22,7 @@ class _Game():
         ticks = 0
         delta = 0
 
-        while not(self.EXIT):
+        while not(self.world.EXIT):
             _current_time = pygame.time.get_ticks()
             delta += ((_current_time - _previous_time) / _MS_PER_TICK)
             _previous_time = _current_time
