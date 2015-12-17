@@ -1,5 +1,6 @@
-import pygame
 import entities
+
+import pygame
 import util
 
 
@@ -9,7 +10,9 @@ class Sprite(entities.Entities):
         world.n_sprite += 1
         self.velocity = [0, 0]
         self.points = []
-        print("SPRITE")
+
+    def handleInput(self):
+        super(Sprite, self).handleInput()
 
     def Update(self):
         super(Sprite, self).Update()

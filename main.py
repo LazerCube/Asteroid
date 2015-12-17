@@ -1,16 +1,33 @@
 #!/usr/bin/python
+import bin.gamestate
+import bin.menustate
+
 import pygame
-import world
 import util
 
 
 class _Game():
     def __init__(self, SURFACE):
         self.SURFACE = SURFACE
-        self.world = world.World(SURFACE)
-        self.width = self.world.WIDTH
-        self.height = self.world.HEIGHT
+        self.WIDTH = SURFACE.get_width()
+        self.HEIGHT = SURFACE.get_height()
+        self.GAMESTATE = util.enum(bin.menustate.MenuState(self),
+                                   bin.gamestate.GameState(self))
+
+        self.state = self.GAMESTATE.reverse_mapping[0]
+        self._state = None
+
+        self.EXIT = False
+
+        self.GAMEID = None
+        self.NUM = None
+        self.HOST = None
+
         self._Run()
+
+    def handleState(self):
+        self._state = (self.state.handleInput())
+        self.state = self._state
 
     def _Run(self):
         _MS_PER_TICK = 15.625
@@ -22,17 +39,17 @@ class _Game():
         ticks = 0
         delta = 0
 
-        while not(self.world.EXIT):
+        while not(self.EXIT):
             _current_time = pygame.time.get_ticks()
             delta += ((_current_time - _previous_time) / _MS_PER_TICK)
             _previous_time = _current_time
 
             while(delta >= 1):
-                self.world.update()
+                self.update()
                 ticks += 1
                 delta -= 1
 
-            self._Render()
+            self.Render()
             frames += 1
 
             if(pygame.time.get_ticks() - _previous_timer >= 1000):
@@ -41,11 +58,17 @@ class _Game():
                 frames = 0
                 ticks = 0
 
-    def _Render(self):
-        self.SURFACE.fill(util.BLACK)
-        self.world.render()
+    def update(self):
+        self.handleState()
+        self.state.update()
 
+    def Render(self):
+        self.SURFACE.fill(util.BLACK)
+        self.state.render()
         pygame.display.flip()
+
+    def resizeWorld(self):
+        pass
 
 
 def _Initiate():

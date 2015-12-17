@@ -1,7 +1,7 @@
-import pygame
 import entities
-import util
 
+import pygame
+import util
 
 class GUI(entities.Entities):
     def __init__(self, world, text, fontsize, color, position):
@@ -17,10 +17,9 @@ class GUI(entities.Entities):
         self.GUI = self.GUIinfo.render(self.text, True, self.color)
 
         world.N_GUIobjects += 1
-        print("GUI")
 
-    def hover(self):
-        pass
+    def handleInput(self):
+        super(GUI, self).handleInput()
 
     def Update(self):
         super(GUI, self).Update()

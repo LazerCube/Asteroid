@@ -1,9 +1,10 @@
+import world
+
 import pygame
-import worldstate
 import util
 
 
-class GameState(worldstate.WorldState):
+class GameState(world.WorldState):
     def __init__(self, world):
         super(GameState, self).__init__(world)
 

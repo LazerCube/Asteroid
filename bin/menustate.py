@@ -1,10 +1,11 @@
+import world
+import SharedEntities.playership
+
 import pygame
 import util
-import worldstate
-import playership
 
 
-class MenuState(worldstate.WorldState):
+class MenuState(world.WorldState):
     def __init__(self, world):
         super(MenuState, self).__init__(world)
         self.n_players = 0
@@ -16,7 +17,7 @@ class MenuState(worldstate.WorldState):
             return self.world.GAMESTATE.reverse_mapping[1]
         elif(self.down):
             self.down = False
-            playership.PlayerShip(self)
+            SharedEntities.playership.PlayerShip(self)
         elif(self.up):
             self.up = False
             self.guiobjects.GUI(self, "Test", 50, util.TERM_BLUE, [50, 50])

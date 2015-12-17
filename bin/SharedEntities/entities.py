@@ -17,6 +17,9 @@ class Entities(object):
         self.color = util.WHITE
         self.worldstate.add(self)
 
+    def handleInput(self):
+        pass
+
     def Update(self):
         pass
 

@@ -1,6 +1,7 @@
+import SharedEntities.guiobjects  # import for all game states
+import SharedEntities.sprite
+
 import pygame
-import sprite
-import guiobjects
 import util
 
 
@@ -13,8 +14,8 @@ class WorldState(object):
         self.N_GUIobjects = 0
 
         # objects
-        self.sprite = sprite
-        self.guiobjects = guiobjects
+        self.sprite = SharedEntities.sprite
+        self.guiobjects = SharedEntities.guiobjects
 
         # Events
         self.resize = False
@@ -25,6 +26,8 @@ class WorldState(object):
         self.right = False
         self.up = False
         self.down = False
+        self.k_a = False
+        self.k_d = False
 
     def add(self, entitie):
         self.n_entities += 1
@@ -46,7 +49,13 @@ class WorldState(object):
                     self.down = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_UP:
                     self.up = event.type == pygame.KEYDOWN
+                elif event.key == pygame.K_a:
+                    self.k_a = event.type == pygame.KEYDOWN
+                elif event.key == pygame.K_d:
+                    self.k_d = event.type == pygame.KEYDOWN
 
+        for i in self.entities:
+            i.handleInput()
 
     def update(self):
         self.handleInput()
