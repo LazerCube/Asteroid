@@ -3,8 +3,8 @@ import pygame
 
 # ------DISPLAY INFO-----#
 
-SURFACE_WIDTH = 600
-SURFACE_HEIGHT = 600
+SURFACE_WIDTH = 700
+SURFACE_HEIGHT = 700
 SURFACE_CAPTION = "Python game engine"
 
 # --------COLOURS--------#
