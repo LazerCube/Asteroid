@@ -1,4 +1,6 @@
 import pygame
+import sprite
+import guiobjects
 import util
 
 
@@ -8,6 +10,11 @@ class WorldState(object):
         self.entities = []
         self.n_entities = 0
         self.n_sprite = 0
+        self.N_GUIobjects = 0
+
+        # objects
+        self.sprite = sprite
+        self.guiobjects = guiobjects
 
         # Events
         self.resize = False
@@ -39,6 +46,7 @@ class WorldState(object):
                     self.down = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_UP:
                     self.up = event.type == pygame.KEYDOWN
+
 
     def update(self):
         self.handleInput()

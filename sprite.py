@@ -2,11 +2,12 @@ import pygame
 import entities
 import util
 
+
 class Sprite(entities.Entities):
     def __init__(self, world):
         super(Sprite, self).__init__(world)
         world.n_sprite += 1
-        self.velocity = [0,0]
+        self.velocity = [0, 0]
         self.points = []
         print("SPRITE")
 
@@ -17,7 +18,6 @@ class Sprite(entities.Entities):
 
         self.position[0] %= self.worldstate.world.WIDTH
         self.position[1] %= self.worldstate.world.HEIGHT
-
 
     def Draw(self):
         super(Sprite, self).Draw()
@@ -30,4 +30,5 @@ class Sprite(entities.Entities):
                           int(c * x + d * y + self.position[1])]
                          for x, y in self.points]
 
-        pygame.draw.lines(self.worldstate.world.SURFACE, self.color, True, screen_points)
+        pygame.draw.lines(self.worldstate.world.SURFACE,
+                          self.color, True, screen_points)
