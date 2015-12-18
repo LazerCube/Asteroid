@@ -12,9 +12,13 @@ class PlayerShip(sprite.Sprite):
                        [-5, 5], [0, -10],
                        [0, -10], [5, 5],
                        [5, 5], [0, 0]]
+        self.hitbox = [[-5, -5], [-5, -10],
+                       [-5, -10], [5, -10],
+                       [5, -10], [5, 5],
+                       [5, 5], [-5, 5]]
         self.name = "TEST"
         self.velocity = [1, 1]
-        self.scale = 4
+        self.scale = 2
 
         world.n_players += 1
 
@@ -26,7 +30,6 @@ class PlayerShip(sprite.Sprite):
 
     def Update(self):
         super(PlayerShip, self).Update()
-        self.angle += 1
 
     def Draw(self):
         super(PlayerShip, self).Draw()

@@ -20,7 +20,7 @@ class WorldState(object):
         # Events
         self.resize = False
 
-        # Inputs
+        # Keyboard Inputs
         self.escape = False
         self.left = False
         self.right = False
@@ -29,15 +29,25 @@ class WorldState(object):
         self.k_a = False
         self.k_d = False
 
+        # Mouse Inputs
+        self.mouse_pressed = [False, False, False]
+        self.mouse_pos = [0, 0]
+
     def add(self, entitie):
         self.n_entities += 1
         self.entities.append(entitie)
 
     def handleInput(self):
         for event in pygame.event.get():
+            pygame.event.pump()
             if event.type == pygame.QUIT:
                 self.world.EXIT = True
-
+            elif event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN:
+                for i in range(len(self.mouse_pressed)):
+                    if pygame.mouse.get_pressed()[i]:
+                        self.mouse_pressed[i] = True
+                    else:
+                        self.mouse_pressed[i] = False
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     self.world.EXIT = True
@@ -53,6 +63,8 @@ class WorldState(object):
                     self.k_a = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_d:
                     self.k_d = event.type == pygame.KEYDOWN
+
+        self.mouse_pos = pygame.mouse.get_pos()
 
         for i in self.entities:
             i.handleInput()

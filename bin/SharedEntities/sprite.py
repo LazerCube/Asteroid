@@ -22,6 +22,10 @@ class Sprite(entities.Entities):
         self.position[0] %= self.worldstate.world.WIDTH
         self.position[1] %= self.worldstate.world.HEIGHT
 
+        self.angle += 1
+
+        self.updatehitbox()
+
     def Draw(self):
         super(Sprite, self).Draw()
         a = self.scale * util.cos(self.angle)
