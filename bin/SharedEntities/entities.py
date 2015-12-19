@@ -30,7 +30,13 @@ class Entities(object):
                            for x, y in self.hitbox]
 
     def handleInput(self):
-        pass
+        if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
+            if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
+                self.hover = True
+            else:
+                self.hover = False
+        else:
+            self.hover = False
 
     def Update(self):
         pass
@@ -38,3 +44,10 @@ class Entities(object):
     def Draw(self):
         pygame.draw.lines(self.worldstate.world.SURFACE,
                           util.GREEN, True, self.hitbox_pos)
+        for i in xrange(0, (len(self.hitbox_pos)), 2):
+            if(i == 0):
+                pygame.draw.circle(self.worldstate.world.SURFACE, util.RED,
+                                   (self.hitbox_pos[i]), 5, 0)
+            else:
+                pygame.draw.circle(self.worldstate.world.SURFACE, util.GREEN,
+                                   (self.hitbox_pos[i]), 5, 0)

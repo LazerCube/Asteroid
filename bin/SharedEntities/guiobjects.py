@@ -28,12 +28,13 @@ class GUI(entities.Entities):
     def addtext(self, text, fontsize, color):
         self.GUIinfo = pygame.font.SysFont(self.font, fontsize)
         self.GUI = self.GUIinfo.render(text, True, color)
-        self.updatehitbox()
 
-    def updatehitbox(self):
         self.GUI_size = [(self.GUI.get_width()), (self.GUI.get_height())]
         self.GUI_center = [((self.GUI_size[0])/2), ((self.GUI_size[1])/2)]
 
+        self.updatehitbox()
+
+    def updatehitbox(self):
         self.new_position = [int(self.position[0] - self.GUI_center[0]),
                              int(self.position[1] - self.GUI_center[1])]
 
@@ -55,16 +56,6 @@ class GUI(entities.Entities):
 
     def handleInput(self):
         super(GUI, self).handleInput()
-        if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
-            if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
-                self.hover = True
-            else:
-                self.hover = False
-        else:
-            self.hover = False
-
-    def Update(self):
-        super(GUI, self).Update()
         if(self.hover):
             self.addtext(self.text, self.fontsize, util.RED)
             if(self.worldstate.mouse_pressed[0]):
@@ -72,6 +63,9 @@ class GUI(entities.Entities):
                 self.updatehitbox()
         else:
             self.addtext(self.text, self.fontsize, self.color)
+
+    def Update(self):
+        super(GUI, self).Update()
 
     def Draw(self):
         super(GUI, self).Draw()

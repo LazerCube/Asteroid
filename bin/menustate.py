@@ -19,7 +19,7 @@ class MenuState(world.WorldState):
 
     def update(self):
         super(MenuState, self).update()
-        util.BLACK = (250, 50, 20)
+        util.BLACK = (0, 0, 0)
 
     def render(self):
         super(MenuState, self).render()

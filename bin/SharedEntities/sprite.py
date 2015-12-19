@@ -13,6 +13,17 @@ class Sprite(entities.Entities):
 
     def handleInput(self):
         super(Sprite, self).handleInput()
+        if(self.hover):
+            self.color = util.TERM_BLUE
+            self.velocity = [0, 0]
+            if(self.worldstate.mouse_pressed[0]):
+                self.position = self.worldstate.mouse_pos
+                self.updatehitbox()
+            else:
+                self.velocity = [1, 1]
+        else:
+            self.color = util.WHITE
+            self.velocity = [1, 1]
 
     def Update(self):
         super(Sprite, self).Update()
@@ -21,9 +32,6 @@ class Sprite(entities.Entities):
 
         self.position[0] %= self.worldstate.world.WIDTH
         self.position[1] %= self.worldstate.world.HEIGHT
-
-        self.angle += 1
-
         self.updatehitbox()
 
     def Draw(self):
