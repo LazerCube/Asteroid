@@ -7,10 +7,9 @@ from objects.sprite import *
 from objects.gui import *
 
 class WorldState(object):
-    def __init__(self, world):
         self.world = world
-        self.entities = []
-        self.n_entities = 0
+        self.objects = []
+        self.n_objects = 0
         self.n_sprite = 0
         self.N_GUIobjects = 0
 
@@ -31,8 +30,8 @@ class WorldState(object):
         self.mouse_pos = [0, 0]
 
     def add(self, entitie):
-        self.n_entities += 1
-        self.entities.append(entitie)
+        self.n_objects += 1
+        self.objects.append(entitie)
 
     def handleInput(self):
         for event in pygame.event.get():
@@ -63,16 +62,16 @@ class WorldState(object):
 
         self.mouse_pos = pygame.mouse.get_pos()
 
-        for i in self.entities:
+        for i in self.objects:
             i.handleInput()
 
     def update(self):
         self.handleInput()
-        for i in self.entities:
+        for i in self.objects:
             i.Update()
 
     def render(self):
-        for i in self.entities:
+        for i in self.objects:
             i.Draw()
 
 class GameState(WorldState):
