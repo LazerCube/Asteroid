@@ -37,4 +37,19 @@ Asteroid/
 |-- setup.py
 |-- README.md
 |-- .gitignore
+
 ```
+
+##  Todo
+
+*   Fix problems with current object class
+*   Add buttons to gui
+*   Implement proper debug system
+*   Add code for setup.py
+*   Move some variables into settings.py
+*   Netwoking
+*   Server
+*   Gameplay
+*   Testing
+*   Improve hitboxes on sprites
+*   Fix hover depth issue
