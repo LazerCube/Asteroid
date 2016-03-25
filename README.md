@@ -1,8 +1,39 @@
 #   Vesta - multiplayer asteroids game
 
-Early development build for Vesta
+Early development build for Vesta, a simple asteroids game.
 
-New File structure!!
+# Requirements
+
+*   Python 2.7      
+*   Pygame
+
+## Recently added
+
+*   New file structure
+*   Basic Debug mode(more to come!)
+
+
+##  Todo
+
+*   Fix problems with current object class
+*   Add buttons to gui
+*   Implement proper debug system
+*   Add code for setup.py
+*   Move some variables into settings.py
+*   Networking
+*   Server
+*   Debug mode / gui objects
+    *   Add container objects to store gui objects
+    *   auto generate hitboxes for gui objects
+    *   Add proper logging
+    *   hover information on objects
+*   Gameplay
+*   Testing
+*   Improve hitboxes on sprites
+*   Fix hover depth issue
+
+
+##  New File structure!!
 
 ```
 Asteroid/
@@ -39,17 +70,3 @@ Asteroid/
 |-- .gitignore
 
 ```
-
-##  Todo
-
-*   Fix problems with current object class
-*   Add buttons to gui
-*   Implement proper debug system
-*   Add code for setup.py
-*   Move some variables into settings.py
-*   Netwoking
-*   Server
-*   Gameplay
-*   Testing
-*   Improve hitboxes on sprites
-*   Fix hover depth issue
