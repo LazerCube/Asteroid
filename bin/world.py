@@ -7,6 +7,7 @@ from objects.sprite import *
 from objects.gui import *
 
 class WorldState(object):
+    def __init__(self, world):
         self.world = world
         self.objects = []
         self.n_objects = 0
