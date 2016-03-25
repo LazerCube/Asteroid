@@ -1,5 +1,5 @@
 import pygame
-import util
+from utilites import util
 
 class Entities(object):
     def __init__(self, world):
@@ -51,7 +51,7 @@ class Entities(object):
                 pygame.draw.circle(self.worldstate.world.SURFACE, util.GREEN,
                                    (self.hitbox_pos[i]), 5, 0)
 
-class Sprite(entities.Entities):
+class Sprite(Entities):
     def __init__(self, world):
         super(Sprite, self).__init__(world)
         world.n_sprite += 1
@@ -96,7 +96,7 @@ class Sprite(entities.Entities):
                           self.color, True, screen_points)
 
 
-class GUI(entities.Entities):
+class GUI(Entities):
     def __init__(self, world, text, fontsize, color, position):
         super(GUI, self).__init__(world)
         self.scale = 1

@@ -1,10 +1,9 @@
-import SharedEntities.guiobjects  # import for all game states
-import SharedEntities.sprite
-
-import SharedEntities.playership
-
 import pygame
-import util
+
+
+from utilites import util
+from objects import objects
+from objects.sprite import playership
 
 
 class WorldState(object):
@@ -16,8 +15,8 @@ class WorldState(object):
         self.N_GUIobjects = 0
 
         # objects
-        self.sprite = SharedEntities.sprite
-        self.guiobjects = SharedEntities.guiobjects
+        self.sprite = objects.Sprite
+        self.guiobjects = objects.GUI
 
         # Events
         self.resize = False
@@ -80,7 +79,7 @@ class WorldState(object):
         for i in self.entities:
             i.Draw()
 
-class GameState(world.WorldState):
+class GameState(WorldState):
     def __init__(self, world):
         super(GameState, self).__init__(world)
         self.n_players = 0
@@ -92,10 +91,10 @@ class GameState(world.WorldState):
             return self.world.GAMESTATE.reverse_mapping[0]
         elif(self.down):
             self.down = False
-            SharedEntities.playership.PlayerShip(self)
+            playership.PlayerShip(self)
         elif(self.up):
             self.up = False
-            self.guiobjects.GUI(self, "Test", 49, util.TERM_BLUE, [50, 50])
+            self.guiobjects(self, "Test", 49, util.TERM_BLUE, [50, 50]) # LOOK AT ONCE THE NEW STRUCTURE IS WORKING!!!
         return self.world.GAMESTATE.reverse_mapping[1]
 
     def update(self):
@@ -105,10 +104,10 @@ class GameState(world.WorldState):
     def render(self):
         super(GameState, self).render()
 
-class MenuState(world.WorldState):
+class MenuState(WorldState):
     def __init__(self, world):
         super(MenuState, self).__init__(world)
-        self.guiobjects.GUI(self, "MENU", 60, util.TERM_BLUE,
+        self.guiobjects(self, "MENU", 60, util.TERM_BLUE,
                             [self.world.WIDTH / 2, 30])
 
     def handleInput(self):

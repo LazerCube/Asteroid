@@ -1,9 +1,8 @@
 #!/usr/bin/python
-import bin.gamestate
-import bin.menustate
+import world
 
 import pygame
-import util
+from utilites import util
 
 
 class _Game():
@@ -11,8 +10,8 @@ class _Game():
         self.SURFACE = SURFACE
         self.WIDTH = SURFACE.get_width()
         self.HEIGHT = SURFACE.get_height()
-        self.GAMESTATE = util.enum(bin.menustate.MenuState(self),
-                                   bin.gamestate.GameState(self))
+        self.GAMESTATE = util.enum(world.MenuState(self),
+                                   world.GameState(self))
 
         self.state = self.GAMESTATE.reverse_mapping[0]
         self._state = None

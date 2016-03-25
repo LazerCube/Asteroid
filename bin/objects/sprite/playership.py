@@ -1,9 +1,9 @@
 import pygame
-import sprite
-import util
 
+from utilites import util
+from objects import objects
 
-class PlayerShip(sprite.Sprite):
+class PlayerShip(objects.Sprite):
     def __init__(self, world):
         super(PlayerShip, self).__init__(world)
         self.position = [self.worldstate.world.WIDTH / 2,
