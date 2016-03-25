@@ -1,11 +1,16 @@
 import math
 import pygame
+import os
+
+PATH = os.getcwd()
 
 # ------DISPLAY INFO-----#
 
 SURFACE_WIDTH = 500
 SURFACE_HEIGHT = 500
 SURFACE_CAPTION = "Python game engine"
+
+ICON = pygame.image.load(os.path.join(PATH,"utilites", "img" ,"terminal.png"))
 
 # --------COLOURS--------#
 

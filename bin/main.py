@@ -76,6 +76,7 @@ def _Initiate():
         [util.SURFACE_WIDTH, util.SURFACE_HEIGHT], pygame.HWSURFACE |
         pygame.DOUBLEBUF)
     pygame.display.set_caption(util.SURFACE_CAPTION)
+    pygame.display.set_icon(util.ICON)
     game = _Game(SURFACE)
 
     pygame.quit()
