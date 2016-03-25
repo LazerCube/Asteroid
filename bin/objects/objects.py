@@ -1,7 +1,7 @@
 import pygame
 from utilites import util
 
-class Entities(object):
+class Objects(object):
     def __init__(self, world):
         self.worldstate = world
         self.name = None
@@ -15,8 +15,10 @@ class Entities(object):
         self.scale = 10
         self.angle = 0
         self.color = util.WHITE
+        self.mouseover = False              #   is the mouse over the object?
+        self.hover = True                  #   Can the object be hovered?
+
         self.worldstate.add(self)
-        self.hover = False
 
     def updatehitbox(self):
         a = self.scale * util.cos(self.angle)
@@ -29,13 +31,15 @@ class Entities(object):
                            for x, y in self.hitbox]
 
     def handleInput(self):
-        if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
-            if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
-                self.hover = True
+        print("Object: %s   Hover: %s" %(self, self.hover))
+        if self.hover:
+            if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
+                if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
+                    self.mouseover = True
+                else:
+                    self.mouseover = False
             else:
-                self.hover = False
-        else:
-            self.hover = False
+                self.mouseover = False
 
     def Update(self):
         pass
@@ -51,7 +55,7 @@ class Entities(object):
                 pygame.draw.circle(self.worldstate.world.SURFACE, util.GREEN,
                                    (self.hitbox_pos[i]), 5, 0)
 
-class Sprite(Entities):
+class Sprite(Objects):
     def __init__(self, world):
         super(Sprite, self).__init__(world)
         world.n_sprite += 1
@@ -60,7 +64,7 @@ class Sprite(Entities):
 
     def handleInput(self):
         super(Sprite, self).handleInput()
-        if(self.hover):
+        if(self.mouseover):
             self.color = util.TERM_BLUE
             self.velocity = [0, 0]
             if(self.worldstate.mouse_pressed[0]):
@@ -96,7 +100,7 @@ class Sprite(Entities):
                           self.color, True, screen_points)
 
 
-class GUI(Entities):
+class GUI(Objects):
     def __init__(self, world, text, fontsize, color, position):
         super(GUI, self).__init__(world)
         self.scale = 1
@@ -113,6 +117,8 @@ class GUI(Entities):
         self.color = color
         self.GUIinfo = None
         self.GUI = None
+
+        self.debug_info = "gui object"
 
         self.addtext(self.text, self.fontsize, self.color)
         world.N_GUIobjects += 1
@@ -148,7 +154,7 @@ class GUI(Entities):
 
     def handleInput(self):
         super(GUI, self).handleInput()
-        if(self.hover):
+        if(self.mouseover):
             self.addtext(self.text, self.fontsize, util.RED)
             if(self.worldstate.mouse_pressed[0]):
                 self.position = self.worldstate.mouse_pos

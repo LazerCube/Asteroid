@@ -20,13 +20,14 @@ class PlayerShip(objects.Sprite):
         self.name = "TEST"
         self.velocity = [0, 0]
         self.scale = 3
+        self.hover = True
 
         self.updatehitbox()
         world.n_players += 1
 
     def handleInput(self):
         super(PlayerShip, self).handleInput()
-        if(self.hover and self.worldstate.mouse_pressed[0]):
+        if(self.mouseover and self.worldstate.mouse_pressed[0]):
             if(self.worldstate.k_a):
                 self.scale += 1
             elif(self.worldstate.k_d):

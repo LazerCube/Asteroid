@@ -1,10 +1,9 @@
 import pygame
 
-
 from utilites import util
 from objects import objects
-from objects.sprite import playership
-
+from objects.sprite import *
+from objects.gui import *
 
 class WorldState(object):
     def __init__(self, world):
@@ -13,10 +12,6 @@ class WorldState(object):
         self.n_entities = 0
         self.n_sprite = 0
         self.N_GUIobjects = 0
-
-        # objects
-        self.sprite = objects.Sprite
-        self.guiobjects = objects.GUI
 
         # Events
         self.resize = False
@@ -94,7 +89,7 @@ class GameState(WorldState):
             playership.PlayerShip(self)
         elif(self.up):
             self.up = False
-            self.guiobjects(self, "Test", 49, util.TERM_BLUE, [50, 50]) # LOOK AT ONCE THE NEW STRUCTURE IS WORKING!!!
+            label.Label(self, "Test", 49, util.TERM_BLUE, [50, 50])
         return self.world.GAMESTATE.reverse_mapping[1]
 
     def update(self):
@@ -107,7 +102,7 @@ class GameState(WorldState):
 class MenuState(WorldState):
     def __init__(self, world):
         super(MenuState, self).__init__(world)
-        self.guiobjects(self, "MENU", 60, util.TERM_BLUE,
+        label.Label(self, "MENU", 60, util.TERM_BLUE,
                             [self.world.WIDTH / 2, 30])
 
     def handleInput(self):
