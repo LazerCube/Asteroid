@@ -16,7 +16,7 @@ class Objects(object):
         self.angle = 0
         self.color = util.WHITE
         self.mouseover = False              #   is the mouse over the object?
-        self.hover = True                  #   Can the object be hovered?
+        self.hover = False                 #   Can the object be hovered?
 
         self.worldstate.add(self)
 
@@ -31,7 +31,6 @@ class Objects(object):
                            for x, y in self.hitbox]
 
     def handleInput(self):
-        print("Object: %s   Hover: %s" %(self, self.hover))
         if self.hover:
             if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
                 if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
@@ -69,6 +68,7 @@ class Sprite(Objects):
             self.velocity = [0, 0]
             if(self.worldstate.mouse_pressed[0]):
                 self.position = self.worldstate.mouse_pos
+
                 self.updatehitbox()
             else:
                 self.velocity = [1, 1]
@@ -154,13 +154,14 @@ class GUI(Objects):
 
     def handleInput(self):
         super(GUI, self).handleInput()
-        if(self.mouseover):
-            self.addtext(self.text, self.fontsize, util.RED)
-            if(self.worldstate.mouse_pressed[0]):
-                self.position = self.worldstate.mouse_pos
-                self.updatehitbox()
-        else:
-            self.addtext(self.text, self.fontsize, self.color)
+        if self.hover:
+            if(self.mouseover):
+                self.addtext(self.text, self.fontsize, util.RED)
+                if(self.worldstate.mouse_pressed[0]):
+                    self.position = self.worldstate.mouse_pos
+                    self.updatehitbox()
+            else:
+                self.addtext(self.text, self.fontsize, self.color)
 
     def Update(self):
         super(GUI, self).Update()
