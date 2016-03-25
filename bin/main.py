@@ -2,14 +2,16 @@
 import world
 
 import pygame
+import settings
 from utilites import util
-
 
 class _Game():
     def __init__(self, SURFACE):
         self.SURFACE = SURFACE
         self.WIDTH = SURFACE.get_width()
         self.HEIGHT = SURFACE.get_height()
+        self.DEBUG_MODE = settings.DEBUG_MODE
+        self.DEBUG_INFO = "None"
         self.GAMESTATE = util.enum(world.MenuState(self),
                                    world.GameState(self))
 
@@ -52,7 +54,7 @@ class _Game():
             frames += 1
 
             if(pygame.time.get_ticks() - _previous_timer >= 1000):
-                print("FPS: %i  TICKS: %i" % (frames, ticks))
+                self.DEBUG_INFO = ("Ticks: %i  |  FPS: %i  |  " % (ticks, frames))
                 _previous_timer = pygame.time.get_ticks()
                 frames = 0
                 ticks = 0

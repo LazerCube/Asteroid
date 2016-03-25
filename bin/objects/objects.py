@@ -1,5 +1,7 @@
 import pygame
+import settings
 from utilites import util
+
 
 class Objects(object):
     def __init__(self, world):
@@ -44,15 +46,46 @@ class Objects(object):
         pass
 
     def Draw(self):
-        pygame.draw.lines(self.worldstate.world.SURFACE,
-                          util.GREEN, True, self.hitbox_pos)
-        for i in xrange(0, (len(self.hitbox_pos)), 2):
-            if(i == 0):
-                pygame.draw.circle(self.worldstate.world.SURFACE, util.RED,
-                                   (self.hitbox_pos[i]), 5, 0)
-            else:
-                pygame.draw.circle(self.worldstate.world.SURFACE, util.GREEN,
-                                   (self.hitbox_pos[i]), 5, 0)
+        if self.worldstate.DEBUG_MODE:
+            pygame.draw.lines(self.worldstate.world.SURFACE,
+                              util.GREEN, True, self.hitbox_pos)
+            for i in xrange(0, (len(self.hitbox_pos)), 2):
+                if(i == 0):
+                    pygame.draw.circle(self.worldstate.world.SURFACE, util.RED,
+                                       (self.hitbox_pos[i]), 5, 0)
+                else:
+                    pygame.draw.circle(self.worldstate.world.SURFACE, util.GREEN,
+                                       (self.hitbox_pos[i]), 5, 0)
+
+class Debug(Objects):
+    def __init__(self, world):
+        super(Debug, self).__init__(world)
+        self.n_DEBUG_objects = 0
+
+        self.background_colour = settings.DEBUG_CONSOLE_BACKGROUND_COLOR
+
+        self.font = util.DEFAULT_FONT
+        self.text_position = ((settings.DEBUG_CONSOLE_X + 10),(settings.DEBUG_CONSOLE_Y + 10))
+        self.text_info = pygame.font.SysFont(self.font, 18)
+        self.rendered_text = None
+        self.log_name = "Debug log"
+        self.Update()
+
+
+    def Update(self):
+        self.log_data = self.worldstate.world.DEBUG_INFO + ("World Objects: %s  |  Sprites: %s  |  GUI: %s" %(self.worldstate.n_objects, self.worldstate.n_sprite, self.worldstate.N_GUIobjects))
+        self.log = ("%s:     %s" %(self.log_name, self.log_data))
+        self.rendered_text = self.text_info.render(self.log, True, (255,255,255))
+        super(Debug, self).Update()
+
+    def Draw(self):
+        super(Debug, self).Draw
+        pygame.draw.rect(self.worldstate.world.SURFACE, self.background_colour,
+                        (settings.DEBUG_CONSOLE_X, settings.DEBUG_CONSOLE_Y, settings.DEBUG_CONSOLE_WIDTH, settings.DEBUG_CONSOLE_HEIGHT))
+        #self.worldstate.world.SURFACE.blit(self.text, self.text_position)
+        self.worldstate.world.SURFACE.blit(self.rendered_text, (self.text_position))
+
+
 
 class Sprite(Objects):
     def __init__(self, world):
@@ -112,7 +145,6 @@ class GUI(Objects):
         self.GUI_center = [0, 0]
         self.position = position
         self.new_position = position
-        self.text = text
         self.fontsize = fontsize
         self.color = color
         self.GUIinfo = None

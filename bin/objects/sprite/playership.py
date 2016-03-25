@@ -19,7 +19,7 @@ class PlayerShip(objects.Sprite):
 
         self.name = "TEST"
         self.velocity = [0, 0]
-        self.scale = 3
+        self.scale = 2
         self.hover = True
 
         self.updatehitbox()
@@ -34,6 +34,7 @@ class PlayerShip(objects.Sprite):
                 self.scale -= 1
 
     def Update(self):
+        self.angle += 1
         super(PlayerShip, self).Update()
 
     def Draw(self):

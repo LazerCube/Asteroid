@@ -9,6 +9,12 @@ from objects.gui import *
 class WorldState(object):
     def __init__(self, world):
         self.world = world
+
+        #DEBUG variables
+        self.DEBUG_MODE = self.world.DEBUG_MODE
+        self.n_DEBUG_objects = 0
+
+        # World variables
         self.objects = []
         self.n_objects = 0
         self.n_sprite = 0
@@ -30,9 +36,13 @@ class WorldState(object):
         self.mouse_pressed = [False, False, False]
         self.mouse_pos = [0, 0]
 
+        if self.DEBUG_MODE:
+            objects.Debug(self)
+
     def add(self, entitie):
         self.n_objects += 1
         self.objects.append(entitie)
+
 
     def handleInput(self):
         for event in pygame.event.get():
