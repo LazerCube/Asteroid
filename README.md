@@ -12,6 +12,13 @@ Early development build for Vesta, a simple asteroids game.
 *   New file structure
 *   Basic Debug mode(more to come!)
 
+## Command line args
+
+Optional arguments:
+```
+python main.py [-h] [-d]
+```
+
 
 ##  Todo
 
@@ -21,6 +28,10 @@ Early development build for Vesta, a simple asteroids game.
 *   Add code for setup.py
 *   Move some variables into settings.py
 *   Networking
+*   Command line args
+    *   Switch to argparser for command line args
+    *   add more args
+    *   clean up code
 *   Server
 *   Debug mode / gui objects
     *   Add container objects to store gui objects
