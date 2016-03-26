@@ -22,7 +22,7 @@ python main.py [-h] [-d]
 
 This branch aims to fix some of the the current issues with object classes.
 
-*   Clean deletion of objects
+*   Clean deletion of objects (Done)
 *   Buttons
 *   Containers(?)
 

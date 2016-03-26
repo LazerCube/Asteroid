@@ -19,17 +19,40 @@ class PlayerShip(objects.Sprite):
 
         self.name = "TEST"
         self.velocity = [0, 0]
+        self.rotate_by = 0
         self.scale = 2
-        self.hover = True
+        self.hover = False
+
+        # Inputs
+        self.rotate_left = False
+        self.rotate_right = False
 
         self.updatehitbox()
         world.n_players += 1
 
     def handleInput(self):
         super(PlayerShip, self).handleInput()
+        if(self.worldstate.up):
+            self.thrust()
+        if(self.worldstate.left):
+            self.rotate_by = -4
+        elif(self.worldstate.right):
+            self.rotate_by = 4
+        else:
+            self.rotate_by = 0
 
     def Update(self):
+        self.rotate(self.rotate_by)
         super(PlayerShip, self).Update()
+
+    def thrust(self):
+        u = 0.1 * util.cos(self.angle - 90)
+        v = 0.1 * util.sin(self.angle - 90)
+        self.velocity = [self.velocity[0] + u, self.velocity[1] + v]
+
+    def rotate(self, angle):
+        self.angle += angle
+        self.angle %=360
 
     def Draw(self):
         super(PlayerShip, self).Draw()

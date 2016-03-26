@@ -18,6 +18,7 @@ class Objects(object):
         self.angle = 0
         self.color = util.WHITE
         self.mouseover = False              #   is the mouse over the object?
+        self.mouse_active_press = [False] * 3
         self.hover = False                 #   Can the object be hovered?
 
         self.worldstate.add(self)
@@ -41,12 +42,15 @@ class Objects(object):
                     self.mouseover = False
             else:
                 self.mouseover = False
+            for i in range(3):
+                if(self.mouseover and self.worldstate.mouse_pressed[i]):
+                    self.mouse_active_press[i] = True
 
     def Update(self):
         if self.kill:
             print("Kill")
             self.worldstate.remove(self)
-        if(self.mouseover and self.worldstate.mouse_pressed[0]):
+        if(self.mouse_active_press[0]):
             if(self.worldstate.delete):
                 self.kill = True
 
@@ -105,7 +109,7 @@ class Sprite(Objects):
         if(self.mouseover):
             self.color = util.TERM_BLUE
             self.velocity = [0, 0]
-            if(self.worldstate.mouse_pressed[0]):
+            if(self.mouse_active_press[0]):
                 self.position = self.worldstate.mouse_pos
 
                 self.updatehitbox()
@@ -113,7 +117,6 @@ class Sprite(Objects):
                 self.velocity = [1, 1]
         else:
             self.color = util.WHITE
-            self.velocity = [1, 1]
 
     def Update(self):
         if self.kill:
