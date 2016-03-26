@@ -18,7 +18,13 @@ Optional arguments:
 ```
 python main.py [-h] [-d]
 ```
+## Branch information - Object class update V1
 
+This branch aims to fix some of the the current issues with object classes.
+
+*   Clean deletion of objects
+*   Buttons
+*   Containers(?)
 
 ##  Todo
 
