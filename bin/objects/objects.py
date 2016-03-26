@@ -43,7 +43,12 @@ class Objects(object):
                 self.mouseover = False
 
     def Update(self):
-        pass
+        if self.kill:
+            print("Kill")
+            self.worldstate.remove(self)
+        if(self.mouseover and self.worldstate.mouse_pressed[0]):
+            if(self.worldstate.delete):
+                self.kill = True
 
     def Draw(self):
         if self.worldstate.DEBUG_MODE:
@@ -69,6 +74,7 @@ class Debug(Objects):
         self.text_info = pygame.font.SysFont(self.font, 18)
         self.rendered_text = None
         self.log_name = "Debug log"
+
         self.Update()
 
 
@@ -90,7 +96,7 @@ class Debug(Objects):
 class Sprite(Objects):
     def __init__(self, world):
         super(Sprite, self).__init__(world)
-        world.n_sprite += 1
+        self.worldstate.n_sprite += 1
         self.velocity = [0, 0]
         self.points = []
 
@@ -110,6 +116,8 @@ class Sprite(Objects):
             self.velocity = [1, 1]
 
     def Update(self):
+        if self.kill:
+            self.worldstate.n_sprite -= 1
         super(Sprite, self).Update()
         self.position = [self.position[0] + self.velocity[0],
                          self.position[1] + self.velocity[1]]
@@ -153,7 +161,7 @@ class GUI(Objects):
         self.debug_info = "gui object"
 
         self.addtext(self.text, self.fontsize, self.color)
-        world.N_GUIobjects += 1
+        self.worldstate.N_GUIobjects += 1
 
     def addtext(self, text, fontsize, color):
         self.GUIinfo = pygame.font.SysFont(self.font, fontsize)
@@ -196,6 +204,8 @@ class GUI(Objects):
                 self.addtext(self.text, self.fontsize, self.color)
 
     def Update(self):
+        if self.kill:
+            self.worldstate.N_GUIobjects -= 1
         super(GUI, self).Update()
 
     def Draw(self):

@@ -26,6 +26,11 @@ DARK_BLUE = (40, 44, 52)
 
 DEFAULT_FONT = 'franklin gothic'
 
+# --------functions--------#
+
+def clearConsole():
+    clear = lambda: os.system('cls')
+    clear()
 
 def cos(angle):
     x = math.radians(angle)

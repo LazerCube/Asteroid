@@ -25,6 +25,7 @@ class WorldState(object):
 
         # Keyboard Inputs
         self.escape = False
+        self.delete = False
         self.left = False
         self.right = False
         self.up = False
@@ -42,7 +43,14 @@ class WorldState(object):
     def add(self, entitie):
         self.n_objects += 1
         self.objects.append(entitie)
+        if self.DEBUG_MODE:
+            print("Adding ", entitie)
 
+    def remove(self, entitie):
+        self.objects.remove(entitie)
+        self.n_objects -= 1
+        if self.DEBUG_MODE:
+            print("Removing ", entitie)
 
     def handleInput(self):
         for event in pygame.event.get():
@@ -58,6 +66,8 @@ class WorldState(object):
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     self.world.EXIT = True
+                elif event.key == pygame.K_DELETE:
+                    self.delete = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_LEFT:
                     self.left = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_RIGHT:

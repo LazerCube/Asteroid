@@ -43,7 +43,8 @@ class _Game():
                sys.exit()
            elif opt in ("-d", "--debug"):
                self.DEBUG_MODE = True
-       print 'Debug Mode: ', self.DEBUG_MODE
+       if self.DEBUG_MODE:
+           print("\n\n----------DEBUG----------\n\n")
 
     def handleState(self):
         self._state = (self.state.handleInput())

@@ -27,14 +27,8 @@ class PlayerShip(objects.Sprite):
 
     def handleInput(self):
         super(PlayerShip, self).handleInput()
-        if(self.mouseover and self.worldstate.mouse_pressed[0]):
-            if(self.worldstate.k_a):
-                self.scale += 1
-            elif(self.worldstate.k_d):
-                self.scale -= 1
 
     def Update(self):
-        self.angle += 1
         super(PlayerShip, self).Update()
 
     def Draw(self):
