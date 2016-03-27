@@ -12,7 +12,7 @@ class Objects(object):
                        [-1, 1], [1, 1],
                        [1, 1], [1, -1],
                        [1, -1], [-1, -1]]
-        self.hitbox_pos = []
+        self.hitbox_pos = [0,0]
         self.kill = False
         self.scale = 10
         self.angle = 0
@@ -23,7 +23,7 @@ class Objects(object):
 
         self.worldstate.add(self)
 
-    def updatehitbox(self):
+    def UpdateHitBox(self):
         a = self.scale * util.cos(self.angle)
         b = self.scale * -util.sin(self.angle)
         c = -b
@@ -33,7 +33,7 @@ class Objects(object):
                             int(c * x + d * y + self.position[1])]
                            for x, y in self.hitbox]
 
-    def handleInput(self):
+    def HandleInput(self):
         if self.hover:
             if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
                 if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
@@ -56,7 +56,7 @@ class Objects(object):
             if(self.worldstate.delete):
                 self.kill = True
 
-    def Draw(self):
+    def Draw(self, delta):
         if self.worldstate.DEBUG_MODE:
             pygame.draw.lines(self.worldstate.world.SURFACE,
                               util.GREEN, True, self.hitbox_pos)
@@ -78,11 +78,8 @@ class Debug(Objects):
         self.font = util.DEFAULT_FONT
         self.text_position = ((settings.DEBUG_CONSOLE_X + 10),(settings.DEBUG_CONSOLE_Y + 10))
         self.text_info = pygame.font.SysFont(self.font, 18)
-        self.rendered_text = None
         self.log_name = "Debug log"
-
-        self.Update()
-
+        self.rendered_text = self.text_info.render(self.log_name, True, (255,255,255))
 
     def Update(self):
         self.log_data = self.worldstate.world.DEBUG_INFO + ("World Objects: %s  |  Sprites: %s  |  GUI: %s" %(self.worldstate.n_objects, self.worldstate.n_sprite, self.worldstate.N_GUIobjects))
@@ -90,12 +87,11 @@ class Debug(Objects):
         self.rendered_text = self.text_info.render(self.log, True, (255,255,255))
         super(Debug, self).Update()
 
-    def Draw(self):
-        super(Debug, self).Draw
+    def Draw(self, delta):
         pygame.draw.rect(self.worldstate.world.SURFACE, self.background_colour,
                         (settings.DEBUG_CONSOLE_X, settings.DEBUG_CONSOLE_Y, settings.DEBUG_CONSOLE_WIDTH, settings.DEBUG_CONSOLE_HEIGHT))
         #self.worldstate.world.SURFACE.blit(self.text, self.text_position)
-        self.worldstate.world.SURFACE.blit(self.rendered_text, (self.text_position))
+        self.worldstate.world.SURFACE.blit(self.rendered_text, self.text_position)
 
 
 
@@ -106,38 +102,41 @@ class Sprite(Objects):
         self.velocity = [0, 0]
         self.points = []
 
-    def handleInput(self):
-        super(Sprite, self).handleInput()
+    def HandleInput(self):
+        super(Sprite, self).HandleInput()
         if self.hover:
             if(self.mouseover):
                 self.color = util.TERM_BLUE
                 self.velocity = [0, 0]
                 if(self.mouse_active_press[0]):
                     self.position = self.worldstate.mouse_pos
-                    self.updatehitbox()
+                    self.UpdateHitBox()
             else:
                 self.color = util.WHITE
 
     def Update(self):
         if self.kill:
             self.worldstate.n_sprite -= 1
-        super(Sprite, self).Update()
-        self.position = [self.position[0] + self.velocity[0],
-                         self.position[1] + self.velocity[1]]
+
+        self.position = [self.position[0] + (self.velocity[0]),
+                         self.position[1] + (self.velocity[1])]
 
         self.position[0] %= self.worldstate.world.WIDTH
         self.position[1] %= self.worldstate.world.HEIGHT
-        self.updatehitbox()
+        self.UpdateHitBox()
 
-    def Draw(self):
-        super(Sprite, self).Draw()
+    def Draw(self, delta):
+        self.view_position = [self.position[0] + (self.velocity[0] * delta),
+                              self.position[1] + (self.velocity[1] * delta)]
+
+        super(Sprite, self).Draw(delta)
         a = self.scale * util.cos(self.angle)
         b = self.scale * -util.sin(self.angle)
         c = -b
         d = a
 
-        screen_points = [[int(a * x + b * y + self.position[0]),
-                          int(c * x + d * y + self.position[1])]
+        screen_points = [[int(a * x + b * y + self.view_position[0]),
+                          int(c * x + d * y + self.view_position[1])]
                          for x, y in self.points]
 
         pygame.draw.lines(self.worldstate.world.SURFACE,
@@ -173,9 +172,9 @@ class GUI(Objects):
         self.GUI_size = [(self.GUI.get_width()), (self.GUI.get_height())]
         self.GUI_center = [((self.GUI_size[0])/2), ((self.GUI_size[1])/2)]
 
-        self.updatehitbox()
+        self.UpdateHitBox()
 
-    def updatehitbox(self):
+    def UpdateHitBox(self):
         self.new_position = [int(self.position[0] - self.GUI_center[0]),
                              int(self.position[1] - self.GUI_center[1])]
 
@@ -193,16 +192,16 @@ class GUI(Objects):
         self.hitbox[6] = d
         self.hitbox[7] = a
 
-        super(GUI, self).updatehitbox()
+        super(GUI, self).UpdateHitBox()
 
-    def handleInput(self):
-        super(GUI, self).handleInput()
+    def HandleInput(self):
+        super(GUI, self).HandleInput()
         if self.hover:
             if(self.mouseover):
                 self.addtext(self.text, self.fontsize, util.RED)
                 if(self.mouse_active_press[0]):
                     self.position = self.worldstate.mouse_pos
-                    self.updatehitbox()
+                    self.UpdateHitBox()
             else:
                 self.addtext(self.text, self.fontsize, self.color)
 
@@ -211,6 +210,7 @@ class GUI(Objects):
             self.worldstate.N_GUIobjects -= 1
         super(GUI, self).Update()
 
-    def Draw(self):
-        super(GUI, self).Draw()
+    def Draw(self, delta):
+        #self.screen_position = [self.new_position[0] * delta, self.new_position[1] * delta]
+        super(GUI, self).Draw(delta)
         self.worldstate.world.SURFACE.blit(self.GUI, self.new_position)

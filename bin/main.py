@@ -46,8 +46,8 @@ class _Game():
        if self.DEBUG_MODE:
            print("\n\n----------DEBUG----------\n\n")
 
-    def handleState(self):
-        self._state = (self.state.handleInput())
+    def HandleState(self):
+        self._state = (self.state.HandleInput())
         self.state = self._state
 
     def Engine(self):
@@ -68,30 +68,27 @@ class _Game():
             self.HandleInput()
 
             while(self.lag >= MS_PER_TICK):
-                self.FixedUpdate()
+                self.Update()
                 self.lag -= MS_PER_TICK
 
-            self.Update()
-            self.RenderFrame()
+            delta = self.lag / MS_PER_TICK
+            self.RenderFrame(delta)
 
     def HandleInput(self):
-        self.handleState()
-
-    def FixedUpdate(self):
-        self.ticks += 1
+        self.HandleState()
 
     def Update(self):
-        self.state.update()
-
+        self.state.Update()
+        self.ticks += 1
         if(pygame.time.get_ticks() - self.timer >= 1000):
-            self.DEBUG_INFO = ("Ticks: %i  |  FPS: %i  |  Frame Lag: %f  |  " % (self.ticks, self.frames, self.lag))
+            self.DEBUG_INFO = ("Ticks: %i  |  FPS: %i  |  " % (self.ticks, self.frames))
             self.timer = pygame.time.get_ticks()
             self.frames = 0
             self.ticks = 0
 
-    def RenderFrame(self):
+    def RenderFrame(self, delta):
         self.SURFACE.fill(util.BLACK)
-        self.state.render()
+        self.state.RenderFrame(delta)
         pygame.display.flip()
         self.frames += 1
 

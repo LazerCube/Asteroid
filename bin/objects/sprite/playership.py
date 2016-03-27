@@ -22,39 +22,40 @@ class PlayerShip(objects.Sprite):
         self.scale = 2
         self.hover = True
 
+        self.speed = 1
+        self.rotate_speed = 4
+
         # Inputs
         self.rotate_left = False
         self.rotate_right = False
         self.thrust = False
 
-        self.rotate_speed = 4
-
-        self.updatehitbox()
+        self.UpdateHitBox()
         world.n_players += 1
 
-    def rotate_by(self, angle):
-        self.angle += angle
+    def rotate_by(self, rot):
+        self.angle += rot
         self.angle %=360
 
-    def handleInput(self):
-        super(PlayerShip, self).handleInput()
+    def HandleInput(self):
+        super(PlayerShip, self).HandleInput()
         self.thrust = self.worldstate.k_up
         self.rotate_left = self.worldstate.k_left
         self.rotate_right = self.worldstate.k_right
 
     def Update(self):
-        super(PlayerShip, self).Update()
+        if self.thrust:
+            u = (self.speed * util.cos(self.angle - 90))
+            v = (self.speed * util.sin(self.angle - 90))
+            self.velocity = [(self.velocity[0] + u), (self.velocity[1] + v)]
         if self.rotate_left:
+            self.rotate_speed = 4
             self.rotate_by(- self.rotate_speed)
         elif self.rotate_right:
             self.rotate_by(self.rotate_speed)
-        else:
-            self.rotate_by(0)
-        if self.thrust:
-            u = 0.1 * util.cos(self.angle - 90)
-            v = 0.1 * util.sin(self.angle - 90)
-            self.velocity = [self.velocity[0] + u, self.velocity[1] + v]
+
+        super(PlayerShip, self).Update()
 
 
-    def Draw(self):
-        super(PlayerShip, self).Draw()
+    def Draw(self, delta):
+        super(PlayerShip, self).Draw(delta)

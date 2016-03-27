@@ -70,7 +70,7 @@ class WorldState(object):
         if self.DEBUG_MODE:
             print("Removing ", entitie)
 
-    def handleInput(self):
+    def HandleInput(self):
         for event in pygame.event.get():
             pygame.event.pump()
             if event.type == pygame.QUIT:
@@ -130,24 +130,24 @@ class WorldState(object):
         self.mouse_pos = pygame.mouse.get_pos()
 
         for i in self.objects:
-            i.handleInput()
+            i.HandleInput()
 
-    def update(self):
-        self.handleInput()
+    def Update(self):
+        self.HandleInput()
         for i in self.objects:
             i.Update()
 
-    def render(self):
+    def RenderFrame(self, delta):
         for i in self.objects:
-            i.Draw()
+            i.Draw(delta)
 
 class GameState(WorldState):
     def __init__(self, world):
         super(GameState, self).__init__(world)
         self.n_players = 0
 
-    def handleInput(self):
-        super(GameState, self).handleInput()
+    def HandleInput(self):
+        super(GameState, self).HandleInput()
         if (self.k_1):
             self.k_1 = False
             return self.world.GAMESTATE.reverse_mapping[0]
@@ -159,11 +159,11 @@ class GameState(WorldState):
             label.Label(self, "Test", 49, util.TERM_BLUE, [50, 50])
         return self.world.GAMESTATE.reverse_mapping[1]
 
-    def update(self):
-        super(GameState, self).update()
+    def Update(self):
+        super(GameState, self).Update()
 
-    def render(self):
-        super(GameState, self).render()
+    def RenderFrame(self, delta):
+        super(GameState, self).RenderFrame(delta)
 
 class MenuState(WorldState):
     def __init__(self, world):
@@ -171,16 +171,16 @@ class MenuState(WorldState):
         label.Label(self, "MENU", 60, util.TERM_BLUE,
                             [self.world.WIDTH / 2, 30])
 
-    def handleInput(self):
-        super(MenuState, self).handleInput()
+    def HandleInput(self):
+        super(MenuState, self).HandleInput()
         if (self.k_2):
             self.k_2 = False
             return self.world.GAMESTATE.reverse_mapping[1]
         return self.world.GAMESTATE.reverse_mapping[0]
 
-    def update(self):
-        super(MenuState, self).update()
+    def Update(self):
+        super(MenuState, self).Update()
         util.BLACK = (0, 0, 0)
 
-    def render(self):
-        super(MenuState, self).render()
+    def RenderFrame(self, delta):
+        super(MenuState, self).RenderFrame(delta)
