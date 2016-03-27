@@ -161,7 +161,6 @@ class GameState(WorldState):
 
     def update(self):
         super(GameState, self).update()
-        util.BLACK = (120, 120, 120)
 
     def render(self):
         super(GameState, self).render()

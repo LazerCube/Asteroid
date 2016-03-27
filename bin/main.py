@@ -29,7 +29,7 @@ class _Game():
         self.state = self.GAMESTATE.reverse_mapping[0]
         self._state = None
 
-        self._Run()
+        self.Engine()
 
     def commandLineArgs(self, argv):
        try:
@@ -50,47 +50,50 @@ class _Game():
         self._state = (self.state.handleInput())
         self.state = self._state
 
-    def _Run(self):
-        _MS_PER_TICK = 15.625
-        _previous_time = pygame.time.get_ticks()
-        _previous_timer = pygame.time.get_ticks()
-        _current_time = 0
+    def Engine(self):
+        MS_PER_TICK = 15.625
+        previous = pygame.time.get_ticks()
+        self.lag = 0.0
 
-        frames = 0
-        ticks = 0
-        delta = 0
+        self.timer = pygame.time.get_ticks()
+        self.frames = 0
+        self.ticks = 0
 
         while not(self.EXIT):
-            _current_time = pygame.time.get_ticks()
-            delta += ((_current_time - _previous_time) / _MS_PER_TICK)
-            _previous_time = _current_time
+            current = pygame.time.get_ticks()
+            elapsed = current - previous
+            previous = current
+            self.lag += elapsed
 
-            while(delta >= 1):
-                self.update()
-                ticks += 1
-                delta -= 1
+            self.HandleInput()
 
-            self.Render()
-            frames += 1
+            while(self.lag >= MS_PER_TICK):
+                self.FixedUpdate()
+                self.lag -= MS_PER_TICK
 
-            if(pygame.time.get_ticks() - _previous_timer >= 1000):
-                self.DEBUG_INFO = ("Ticks: %i  |  FPS: %i  |  " % (ticks, frames))
-                _previous_timer = pygame.time.get_ticks()
-                frames = 0
-                ticks = 0
+            self.Update()
+            self.RenderFrame()
 
-    def update(self):
+    def HandleInput(self):
         self.handleState()
+
+    def FixedUpdate(self):
+        self.ticks += 1
+
+    def Update(self):
         self.state.update()
 
-    def Render(self):
+        if(pygame.time.get_ticks() - self.timer >= 1000):
+            self.DEBUG_INFO = ("Ticks: %i  |  FPS: %i  |  Frame Lag: %f  |  " % (self.ticks, self.frames, self.lag))
+            self.timer = pygame.time.get_ticks()
+            self.frames = 0
+            self.ticks = 0
+
+    def RenderFrame(self):
         self.SURFACE.fill(util.BLACK)
         self.state.render()
         pygame.display.flip()
-
-    def resizeWorld(self):
-        pass
-
+        self.frames += 1
 
 def _Initiate(argv):
     pygame.init()
