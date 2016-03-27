@@ -26,10 +26,10 @@ class WorldState(object):
         # Keyboard Inputs
         self.escape = False
         self.delete = False
-        self.left = False
-        self.right = False
-        self.up = False
-        self.down = False
+        self.k_left = False
+        self.k_right = False
+        self.k_up = False
+        self.k_down = False
         self.k_a = False
         self.k_d = False
 
@@ -115,13 +115,13 @@ class WorldState(object):
                 elif event.key == pygame.K_3:
                     self.k_3 = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_LEFT:
-                    self.left = event.type == pygame.KEYDOWN
+                    self.k_left = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_RIGHT:
-                    self.right = event.type == pygame.KEYDOWN
+                    self.k_right = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_DOWN:
-                    self.down = event.type == pygame.KEYDOWN
+                    self.k_down = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_UP:
-                    self.up = event.type == pygame.KEYDOWN
+                    self.k_up = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_a:
                     self.k_a = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_d:
