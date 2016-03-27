@@ -21,7 +21,7 @@ class PlayerShip(objects.Sprite):
         self.velocity = [0, 0]
         self.rotate_by = 0
         self.scale = 2
-        self.hover = False
+        self.hover = True
 
         # Inputs
         self.rotate_left = False

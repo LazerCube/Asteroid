@@ -45,6 +45,8 @@ class Objects(object):
             for i in range(3):
                 if(self.mouseover and self.worldstate.mouse_pressed[i]):
                     self.mouse_active_press[i] = True
+                else:
+                    self.mouse_active_press[i] = False
 
     def Update(self):
         if self.kill:
@@ -106,17 +108,15 @@ class Sprite(Objects):
 
     def handleInput(self):
         super(Sprite, self).handleInput()
-        if(self.mouseover):
-            self.color = util.TERM_BLUE
-            self.velocity = [0, 0]
-            if(self.mouse_active_press[0]):
-                self.position = self.worldstate.mouse_pos
-
-                self.updatehitbox()
+        if self.hover:
+            if(self.mouseover):
+                self.color = util.TERM_BLUE
+                self.velocity = [0, 0]
+                if(self.mouse_active_press[0]):
+                    self.position = self.worldstate.mouse_pos
+                    self.updatehitbox()
             else:
-                self.velocity = [1, 1]
-        else:
-            self.color = util.WHITE
+                self.color = util.WHITE
 
     def Update(self):
         if self.kill:
@@ -200,7 +200,7 @@ class GUI(Objects):
         if self.hover:
             if(self.mouseover):
                 self.addtext(self.text, self.fontsize, util.RED)
-                if(self.worldstate.mouse_pressed[0]):
+                if(self.mouse_active_press[0]):
                     self.position = self.worldstate.mouse_pos
                     self.updatehitbox()
             else:
