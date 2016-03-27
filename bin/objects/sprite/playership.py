@@ -32,27 +32,9 @@ class PlayerShip(objects.Sprite):
 
     def handleInput(self):
         super(PlayerShip, self).handleInput()
-        if(self.worldstate.up):
-            self.thrust()
-        if(self.worldstate.left):
-            self.rotate_by = -4
-        elif(self.worldstate.right):
-            self.rotate_by = 4
-        else:
-            self.rotate_by = 0
 
     def Update(self):
-        self.rotate(self.rotate_by)
         super(PlayerShip, self).Update()
-
-    def thrust(self):
-        u = 0.1 * util.cos(self.angle - 90)
-        v = 0.1 * util.sin(self.angle - 90)
-        self.velocity = [self.velocity[0] + u, self.velocity[1] + v]
-
-    def rotate(self, angle):
-        self.angle += angle
-        self.angle %=360
 
     def Draw(self):
         super(PlayerShip, self).Draw()
