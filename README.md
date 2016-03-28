@@ -20,11 +20,15 @@ python main.py [-h] [-d]
 ```
 ## Branch information - Object class update V1
 
-This branch aims to fix some of the the current issues with object classes.
+This branch aims to fix some of the the current issues with game engine.
 
-*   Clean deletion of objects (Done)
-*   Buttons
-*   Containers(?)
+*   Interpolation
+*   Object management
+*   fixedUpdate() / update()
+*   issues with object class
+*   state management
+
+
 
 ##  Todo
 
