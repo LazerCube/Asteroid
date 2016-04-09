@@ -18,17 +18,14 @@ Optional arguments:
 ```
 python main.py [-h] [-d]
 ```
-## Branch information - Object class update V1
+## Branch information - Notes to myself - Current Issues
 
-This branch aims to fix some of the the current issues with game engine.
-
-*   Interpolation
-*   Object management
-*   fixedUpdate() / update()
-*   issues with object class
-*   state management
-
-
+*   Need to add basic menu system.
+*   Can't add state switching to button objects due to crappy state handling
+*   *State Handling needs fixing*
+*   Buttons need on click as well as on hold.
+*   Buttons need to be able to access some low level engine functions via import. e.g. exit program
+*   *Create Exit function in main.py*
 
 ##  Todo
 
