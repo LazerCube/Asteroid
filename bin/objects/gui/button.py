@@ -25,3 +25,23 @@ class PlayButton(Button):
 
     def fixedUpdate(self):
         super(PlayButton, self).fixedUpdate()
+
+class ExitToMainMenuButton(Button):
+    def __init__(self, world, text, fontsize, color, position):
+        super(ExitToMainMenuButton, self).__init__(world, text, fontsize, color, position)
+
+    def on_click(self):
+        self.GameEngine.SetState(0)
+
+    def fixedUpdate(self):
+        super(ExitToMainMenuButton, self).fixedUpdate()
+
+class ExitButton(Button):
+    def __init__(self, world, text, fontsize, color, position):
+        super(ExitButton, self).__init__(world, text, fontsize, color, position)
+
+    def on_click(self):
+        self.GameEngine.EXIT = True
+
+    def fixedUpdate(self):
+        super(ExitButton, self).fixedUpdate()

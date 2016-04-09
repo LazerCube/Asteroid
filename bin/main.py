@@ -43,8 +43,8 @@ class GameEngine():
 
         self.EXIT = False
 
-        self.GAMESTATE = util.enum(world.MenuState(self),
-                                   world.GameState(self))
+        #self.GAMESTATE = util.enum(world.MenuState(self),
+                                   #world.GameState(self))
 
         # Events
         self.resize = False
@@ -86,7 +86,11 @@ class GameEngine():
         self.exit()
 
     def SetState(self, new_state):
-        self.state = self.GAMESTATE.reverse_mapping[new_state]
+        #self.state = self.GAMESTATE.reverse_mapping[new_state]
+        if(new_state == 0):
+            self.state = world.MenuState(self)
+        elif(new_state == 1):
+            self.state = world.GameStateController(self)
 
     def GameLoop(self):
         MS_PER_TICK = 15.625
@@ -117,7 +121,7 @@ class GameEngine():
         for event in pygame.event.get():
             pygame.event.pump()
             if event.type == pygame.QUIT:
-                self.GameEngine.EXIT = True
+                self.EXIT = True
             elif event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(len(self.mouse_pressed)):
                     if pygame.mouse.get_pressed()[i]:
@@ -126,7 +130,11 @@ class GameEngine():
                         self.mouse_pressed[i] = False
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
-                    self.GameEngine.EXIT = True
+                    if (event.type == pygame.KEYDOWN):
+                        if(self.escape == True):
+                            self.escape = False
+                        else:
+                            self.escape = True
                 elif event.key == pygame.K_DELETE:
                     self.delete = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_KP0:
@@ -173,6 +181,7 @@ class GameEngine():
 
         self.state.handleInput()
 
+
     def fixedUpdate(self):
         self.state.fixedUpdate()
         self.ticks += 1
@@ -186,7 +195,6 @@ class GameEngine():
         self.state.update(delta)
 
     def render(self):
-        self.Surface.SURFACE.fill(util.BLACK)
         self.state.render()
         pygame.display.flip()
         self.frames += 1
