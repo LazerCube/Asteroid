@@ -20,12 +20,11 @@ python main.py [-h] [-d]
 ```
 ## Branch information - Notes to myself - Current Issues
 
-*   Branch to fix the issues with the state system
-*   Current system is fucked
-*   should be able to call a state change from GUI objects.
-*   state needs to be handled in main.py
-*   Menu state should be referenced to as 0
-*   Game state should be referenced to as 1
+*   Don't want objects having to use long names to address varibles
+    e.g. self.worldstate.GameEngine.SURFACE.blit.
+*   Need to put some Engine features so they can be easily used.
+*   e.g. self.
+
 
 
 ##  Todo
