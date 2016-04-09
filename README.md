@@ -1,4 +1,4 @@
-#   Vesta - multiplayer asteroids game
+#   Vesta - multiplayer asteroids game / state-fix
 
 Early development build for Vesta, a simple asteroids game.
 
@@ -20,12 +20,13 @@ python main.py [-h] [-d]
 ```
 ## Branch information - Notes to myself - Current Issues
 
-*   Need to add basic menu system.
-*   Can't add state switching to button objects due to crappy state handling
-*   *State Handling needs fixing*
-*   Buttons need on click as well as on hold.
-*   Buttons need to be able to access some low level engine functions via import. e.g. exit program
-*   *Create Exit function in main.py*
+*   Branch to fix the issues with the state system
+*   Current system is fucked
+*   should be able to call a state change from GUI objects.
+*   state needs to be handled in main.py
+*   Menu state should be referenced to as 0
+*   Game state should be referenced to as 1
+
 
 ##  Todo
 
