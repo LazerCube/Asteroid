@@ -7,11 +7,11 @@ from objects.sprite import *
 from objects.gui import *
 
 class WorldState(object):
-    def __init__(self, world):
-        self.world = world
+    def __init__(self, GameEngine):
+        self.GameEngine = GameEngine
 
         #DEBUG variables
-        self.DEBUG_MODE = self.world.DEBUG_MODE
+        self.DEBUG_MODE = self.GameEngine.DEBUG_MODE
         self.n_DEBUG_objects = 0
 
         # World variables
@@ -74,7 +74,7 @@ class WorldState(object):
         for event in pygame.event.get():
             pygame.event.pump()
             if event.type == pygame.QUIT:
-                self.world.EXIT = True
+                self.GameEngine.EXIT = True
             elif event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN:
                 for i in range(len(self.mouse_pressed)):
                     if pygame.mouse.get_pressed()[i]:
@@ -83,7 +83,7 @@ class WorldState(object):
                         self.mouse_pressed[i] = False
             if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
-                    self.world.EXIT = True
+                    self.GameEngine.EXIT = True
                 elif event.key == pygame.K_DELETE:
                     self.delete = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_KP0:
@@ -145,15 +145,15 @@ class WorldState(object):
             i.Draw()
 
 class GameState(WorldState):
-    def __init__(self, world):
-        super(GameState, self).__init__(world)
+    def __init__(self, GameEngine):
+        super(GameState, self).__init__(GameEngine)
         self.n_players = 0
 
     def handleInput(self):
         super(GameState, self).handleInput()
         if (self.k_1):
             self.k_1 = False
-            self.world.SetState(0)
+            self.GameEngine.SetState(0)
         elif(self.keypad_0):
             self.keypad_0 = False
             playership.PlayerShip(self)
@@ -171,29 +171,29 @@ class GameState(WorldState):
         super(GameState, self).render()
 
 class MenuState(WorldState):
-    def __init__(self, world):
-        super(MenuState, self).__init__(world)
+    def __init__(self, GameEngine):
+        super(MenuState, self).__init__(GameEngine)
 
         self.setupMenu()
 
     def setupMenu(self):
         label.Label(self, "MENU", 60, util.TERM_BLUE,
-                            [self.world.WIDTH / 2, 30])
+                            [self.GameEngine.WIDTH / 2, 30])
 
         button.PlayButton(self, "Play", 35, util.WHITE,
-                            [self.world.WIDTH / 2, 300])
+                            [self.GameEngine.WIDTH / 2, 300])
 
         button.Button(self, "Settings", 35, util.WHITE,
-                            [self.world.WIDTH / 2, 350])
+                            [self.GameEngine.WIDTH / 2, 350])
 
         button.Button(self, "Exit", 35, util.WHITE,
-                            [self.world.WIDTH / 2, 400])
+                            [self.GameEngine.WIDTH / 2, 400])
 
     def handleInput(self):
         super(MenuState, self).handleInput()
         if (self.k_2):
             self.k_2 = False
-            self.world.SetState(1)
+            self.GameEngine.SetState(1)
 
     def fixedUpdate(self):
         super(MenuState, self).fixedUpdate()

@@ -64,14 +64,14 @@ class Objects(object):
 
     def Draw(self):
         if self.worldstate.DEBUG_MODE:
-            pygame.draw.lines(self.worldstate.world.SURFACE,
+            pygame.draw.lines(self.worldstate.GameEngine.SURFACE,
                               util.GREEN, True, self.hitbox_pos)
             for i in xrange(0, (len(self.hitbox_pos)), 2):
                 if(i == 0):
-                    pygame.draw.circle(self.worldstate.world.SURFACE, util.RED,
+                    pygame.draw.circle(self.worldstate.GameEngine.SURFACE, util.RED,
                                        (self.hitbox_pos[i]), 5, 0)
                 else:
-                    pygame.draw.circle(self.worldstate.world.SURFACE, util.GREEN,
+                    pygame.draw.circle(self.worldstate.GameEngine.SURFACE, util.GREEN,
                                        (self.hitbox_pos[i]), 5, 0)
 
 class Debug(Objects):
@@ -88,7 +88,7 @@ class Debug(Objects):
         self.rendered_text = self.text_info.render(self.log_name, True, (255,255,255))
 
     def fixedUpdate(self):
-        self.log_data = self.worldstate.world.DEBUG_INFO + ("World Objects: %s  |  Sprites: %s  |  GUI: %s" %(self.worldstate.n_objects, self.worldstate.n_sprite, self.worldstate.N_GUIobjects))
+        self.log_data = self.worldstate.GameEngine.DEBUG_INFO + ("World Objects: %s  |  Sprites: %s  |  GUI: %s" %(self.worldstate.n_objects, self.worldstate.n_sprite, self.worldstate.N_GUIobjects))
         self.log = ("%s:     %s" %(self.log_name, self.log_data))
         self.rendered_text = self.text_info.render(self.log, True, (255,255,255))
         super(Debug, self).fixedUpdate()
@@ -97,10 +97,10 @@ class Debug(Objects):
         pass
 
     def Draw(self):
-        pygame.draw.rect(self.worldstate.world.SURFACE, self.background_colour,
+        pygame.draw.rect(self.worldstate.GameEngine.SURFACE, self.background_colour,
                         (settings.DEBUG_CONSOLE_X, settings.DEBUG_CONSOLE_Y, settings.DEBUG_CONSOLE_WIDTH, settings.DEBUG_CONSOLE_HEIGHT))
         #self.worldstate.world.SURFACE.blit(self.text, self.text_position)
-        self.worldstate.world.SURFACE.blit(self.rendered_text, self.text_position)
+        self.worldstate.GameEngine.SURFACE.blit(self.rendered_text, self.text_position)
 
 
 
@@ -147,8 +147,8 @@ class Sprite(Objects):
         self.position = [self.position[0] + (self.velocity[0]),
                          self.position[1] + (self.velocity[1])]
 
-        self.position[0] %= self.worldstate.world.WIDTH
-        self.position[1] %= self.worldstate.world.HEIGHT
+        self.position[0] %= self.worldstate.GameEngine.WIDTH
+        self.position[1] %= self.worldstate.GameEngine.HEIGHT
         self.updateHitBox()
 
     def update(self, delta):
@@ -175,7 +175,7 @@ class Sprite(Objects):
         super(Sprite, self).update(delta)
 
     def Draw(self):
-        pygame.draw.lines(self.worldstate.world.SURFACE,
+        pygame.draw.lines(self.worldstate.GameEngine.SURFACE,
                           self.color, True, self.screen_points)
 
         super(Sprite, self).Draw()
@@ -252,4 +252,4 @@ class GUI(Objects):
 
     def Draw(self):
         super(GUI, self).Draw()
-        self.worldstate.world.SURFACE.blit(self.GUI, self.new_position)
+        self.worldstate.GameEngine.SURFACE.blit(self.GUI, self.new_position)

@@ -6,8 +6,8 @@ from objects import objects
 class PlayerShip(objects.Sprite):
     def __init__(self, world):
         super(PlayerShip, self).__init__(world)
-        self.position = [self.worldstate.world.WIDTH / 2,
-                         self.worldstate.world.HEIGHT / 2]
+        self.position = [self.worldstate.GameEngine.WIDTH / 2,
+                         self.worldstate.GameEngine.HEIGHT / 2]
         self.points = [[0, 0], [-5, 5],
                        [-5, 5], [0, -10],
                        [0, -10], [5, 5],
