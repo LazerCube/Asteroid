@@ -21,10 +21,7 @@ class _Game():
 
         self.GAMESTATE = util.enum(world.MenuState(self),
                                    world.GameState(self))
-
-        self.state = self.GAMESTATE.reverse_mapping[0]
-        self._state = None
-
+        self.SetState(0)
         self.Engine()
 
     def commandLineArgs(self, argv):
@@ -42,9 +39,8 @@ class _Game():
        if self.DEBUG_MODE:
            print("\n\n----------DEBUG----------\n\n")
 
-    def HandleState(self):
-        self._state = (self.state.handleInput())
-        self.state = self._state
+    def SetState(self, new_state):
+        self.state = self.GAMESTATE.reverse_mapping[new_state]
 
     def Engine(self):
         MS_PER_TICK = 15.625
@@ -72,7 +68,7 @@ class _Game():
             self.render()
 
     def handleInput(self):
-        self.HandleState()
+        self.state.handleInput()
 
     def fixedUpdate(self):
         self.state.fixedUpdate()

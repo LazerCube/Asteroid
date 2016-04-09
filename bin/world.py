@@ -153,14 +153,13 @@ class GameState(WorldState):
         super(GameState, self).handleInput()
         if (self.k_1):
             self.k_1 = False
-            return self.world.GAMESTATE.reverse_mapping[0]
+            self.world.SetState(0)
         elif(self.keypad_0):
             self.keypad_0 = False
             playership.PlayerShip(self)
         elif(self.keypad_1):
             self.keypad_1 = False
             label.Label(self, "Test", 49, util.TERM_BLUE, [50, 50])
-        return self.world.GAMESTATE.reverse_mapping[1]
 
     def fixedUpdate(self):
         super(GameState, self).fixedUpdate()
@@ -194,8 +193,7 @@ class MenuState(WorldState):
         super(MenuState, self).handleInput()
         if (self.k_2):
             self.k_2 = False
-            return self.world.GAMESTATE.reverse_mapping[1]
-        return self.world.GAMESTATE.reverse_mapping[0]
+            self.world.SetState(1)
 
     def fixedUpdate(self):
         super(MenuState, self).fixedUpdate()
