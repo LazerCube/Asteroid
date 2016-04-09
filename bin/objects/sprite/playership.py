@@ -37,9 +37,9 @@ class PlayerShip(objects.Sprite):
 
     def handleInput(self):
         super(PlayerShip, self).handleInput()
-        self.thrust = self.worldstate.k_up
-        self.rotate_left = self.worldstate.k_left
-        self.rotate_right = self.worldstate.k_right
+        self.thrust = self.GameEngine.k_up
+        self.rotate_left = self.GameEngine.k_left
+        self.rotate_right = self.GameEngine.k_right
 
     def fixedUpdate(self):
         if self.rotate_left:

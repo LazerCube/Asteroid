@@ -20,41 +20,6 @@ class WorldState(object):
         self.n_sprite = 0
         self.N_GUIobjects = 0
 
-        # Events
-        self.resize = False
-
-        # Keyboard Inputs
-        self.escape = False
-        self.delete = False
-        self.k_left = False
-        self.k_right = False
-        self.k_up = False
-        self.k_down = False
-        self.k_a = False
-        self.k_d = False
-
-        # Keyboard Numberpad
-        self.keypad_0 = False
-        self.keypad_1 = False
-        self.keypad_2 = False
-        self.keypad_3 = False
-        self.keypad_4 = False
-        self.keypad_5 = False
-        self.keypad_6 = False
-        self.keypad_7 = False
-        self.keypad_8 = False
-        self.keypad_9 = False
-
-        # Keyboard Number row
-        self.k_0 = False
-        self.k_1 = False
-        self.k_2 = False
-        self.k_3 = False
-
-        # Mouse Inputs
-        self.mouse_pressed = [False, False, False]
-        self.mouse_pos = [0, 0]
-
         if self.DEBUG_MODE:
             objects.Debug(self)
 
@@ -71,63 +36,7 @@ class WorldState(object):
             print("Removing ", entitie)
 
     def handleInput(self):
-        for event in pygame.event.get():
-            pygame.event.pump()
-            if event.type == pygame.QUIT:
-                self.GameEngine.EXIT = True
-            elif event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN:
-                for i in range(len(self.mouse_pressed)):
-                    if pygame.mouse.get_pressed()[i]:
-                        self.mouse_pressed[i] = True
-                    else:
-                        self.mouse_pressed[i] = False
-            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-                if event.key == pygame.K_ESCAPE:
-                    self.GameEngine.EXIT = True
-                elif event.key == pygame.K_DELETE:
-                    self.delete = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP0:
-                    self.keypad_0 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP1:
-                    self.keypad_1 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP2:
-                    self.keypad_2 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP3:
-                    self.keypad_3 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP4:
-                    self.keypad_4 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP5:
-                    self.keypad_5 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP6:
-                    self.keypad_6 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP7:
-                    self.keypad_7 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP8:
-                    self.keypad_8 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_KP9:
-                    self.keypad_9 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_0:
-                    self.k_0 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_1:
-                    self.k_1 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_2:
-                    self.k_2 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_3:
-                    self.k_3 = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_LEFT:
-                    self.k_left = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_RIGHT:
-                    self.k_right = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_DOWN:
-                    self.k_down = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_UP:
-                    self.k_up = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_a:
-                    self.k_a = event.type == pygame.KEYDOWN
-                elif event.key == pygame.K_d:
-                    self.k_d = event.type == pygame.KEYDOWN
 
-        self.mouse_pos = pygame.mouse.get_pos()
 
         for i in self.objects:
             i.handleInput()
@@ -151,14 +60,14 @@ class GameState(WorldState):
 
     def handleInput(self):
         super(GameState, self).handleInput()
-        if (self.k_1):
-            self.k_1 = False
+        if (self.GameEngine.k_1):
+            self.GameEngine.k_1 = False
             self.GameEngine.SetState(0)
-        elif(self.keypad_0):
-            self.keypad_0 = False
+        elif(self.GameEngine.keypad_0):
+            self.GameEngine.keypad_0 = False
             playership.PlayerShip(self)
-        elif(self.keypad_1):
-            self.keypad_1 = False
+        elif(self.GameEngine.keypad_1):
+            self.GameEngine.keypad_1 = False
             label.Label(self, "Test", 49, util.TERM_BLUE, [50, 50])
 
     def fixedUpdate(self):
@@ -191,8 +100,8 @@ class MenuState(WorldState):
 
     def handleInput(self):
         super(MenuState, self).handleInput()
-        if (self.k_2):
-            self.k_2 = False
+        if (self.GameEngine.k_2):
+            self.GameEngine.k_2 = False
             self.GameEngine.SetState(1)
 
     def fixedUpdate(self):
@@ -200,6 +109,7 @@ class MenuState(WorldState):
 
     def update(self, delta):
         super(MenuState, self).update(delta)
+        print(self.GameEngine.k_up)
 
     def render(self):
         super(MenuState, self).render()

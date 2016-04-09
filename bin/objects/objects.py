@@ -38,22 +38,22 @@ class Objects(object):
 
     def handleInput(self):
         if self.hover:
-            if self.worldstate.mouse_pos[0] >= self.hitbox_pos[0][0] and self.worldstate.mouse_pos[1] >= self.hitbox_pos[0][1]:
-                if self.worldstate.mouse_pos[0] <= self.hitbox_pos[3][0] and self.worldstate.mouse_pos[1] <= self.hitbox_pos[3][1]:
+            if self.GameEngine.mouse_pos[0] >= self.hitbox_pos[0][0] and self.GameEngine.mouse_pos[1] >= self.hitbox_pos[0][1]:
+                if self.GameEngine.mouse_pos[0] <= self.hitbox_pos[3][0] and self.GameEngine.mouse_pos[1] <= self.hitbox_pos[3][1]:
                     self.mouseover = True
                 else:
                     self.mouseover = False
             else:
                 self.mouseover = False
             for i in range(3):
-                if(self.mouseover and self.worldstate.mouse_pressed[i]):
+                if(self.mouseover and self.GameEngine.mouse_pressed[i]):
                     self.mouse_active_press[i] = True
                 else:
                     self.mouse_active_press[i] = False
 
     def fixedUpdate(self):
         if(self.mouse_active_press[0]):
-            if(self.worldstate.delete):
+            if(self.GameEngine.delete):
                 self.kill = True
         if self.kill:
             self.worldstate.remove(self)
