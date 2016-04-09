@@ -21,7 +21,7 @@ class PlayButton(Button):
         super(PlayButton, self).__init__(world, text, fontsize, color, position)
 
     def on_click(self):
-        print("Play")
+        self.GameEngine.SetState(1)
 
     def fixedUpdate(self):
         super(PlayButton, self).fixedUpdate()

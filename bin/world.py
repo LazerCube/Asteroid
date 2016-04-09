@@ -178,16 +178,16 @@ class MenuState(WorldState):
 
     def setupMenu(self):
         label.Label(self, "MENU", 60, util.TERM_BLUE,
-                            [self.GameEngine.WIDTH / 2, 30])
+                            [self.GameEngine.Surface.WIDTH / 2, 30])
 
         button.PlayButton(self, "Play", 35, util.WHITE,
-                            [self.GameEngine.WIDTH / 2, 300])
+                            [self.GameEngine.Surface.WIDTH / 2, 300])
 
         button.Button(self, "Settings", 35, util.WHITE,
-                            [self.GameEngine.WIDTH / 2, 350])
+                            [self.GameEngine.Surface.WIDTH / 2, 350])
 
         button.Button(self, "Exit", 35, util.WHITE,
-                            [self.GameEngine.WIDTH / 2, 400])
+                            [self.GameEngine.Surface.WIDTH / 2, 400])
 
     def handleInput(self):
         super(MenuState, self).handleInput()
