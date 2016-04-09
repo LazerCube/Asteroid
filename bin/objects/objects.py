@@ -244,8 +244,6 @@ class GUI(Objects):
         if self.hover:
             if(self.mouseover):
                 self.addtext(self.text, self.fontsize, util.RED)
-                if(self.mouse_active_press[0]):
-                    self.position = self.worldstate.mouse_pos
             else:
                 self.addtext(self.text, self.fontsize, self.color)
 

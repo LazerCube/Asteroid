@@ -174,8 +174,21 @@ class GameState(WorldState):
 class MenuState(WorldState):
     def __init__(self, world):
         super(MenuState, self).__init__(world)
+
+        self.setupMenu()
+
+    def setupMenu(self):
         label.Label(self, "MENU", 60, util.TERM_BLUE,
                             [self.world.WIDTH / 2, 30])
+
+        button.PlayButton(self, "Play", 35, util.WHITE,
+                            [self.world.WIDTH / 2, 300])
+
+        button.Button(self, "Settings", 35, util.WHITE,
+                            [self.world.WIDTH / 2, 350])
+
+        button.Button(self, "Exit", 35, util.WHITE,
+                            [self.world.WIDTH / 2, 400])
 
     def handleInput(self):
         super(MenuState, self).handleInput()

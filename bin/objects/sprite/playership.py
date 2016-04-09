@@ -20,7 +20,7 @@ class PlayerShip(objects.Sprite):
         self.name = "TEST"
         self.velocity = [0, 0]
         self.scale = 2
-        self.hover = True
+        self.hover = False
 
         self.max_velocity = 25
 
