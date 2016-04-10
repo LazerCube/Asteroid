@@ -116,6 +116,8 @@ class Sprite(Objects):
         self.max_velocity = 45
         self.angular_velocity = 0
 
+        self.hover = False
+
         self.updateHitBox()
 
     def rotate_by(self, angle):
@@ -129,7 +131,7 @@ class Sprite(Objects):
                 self.color = util.TERM_BLUE
                 self.velocity = [0, 0]
                 if(self.mouse_active_press[0]):
-                    self.position = self.worldstate.mouse_pos
+                    self.position = self.GameEngine.mouse_pos
             else:
                 self.color = util.WHITE
 

@@ -52,6 +52,7 @@ class GameEngine():
         # Keyboard Inputs
         self.escape = False
         self.delete = False
+        self.k_space = False
         self.k_left = False
         self.k_right = False
         self.k_up = False
@@ -137,6 +138,8 @@ class GameEngine():
                             self.escape = True
                 elif event.key == pygame.K_DELETE:
                     self.delete = event.type == pygame.KEYDOWN
+                elif event.key == pygame.K_SPACE:
+                    self.k_space = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_KP0:
                     self.keypad_0 = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_KP1:
