@@ -9,7 +9,7 @@ class Button(objects.GUI):
         self.hover = True
 
     def on_click(self):
-        print("Nothing Set")
+        pass
 
     def fixedUpdate(self):
         super(Button, self).fixedUpdate()

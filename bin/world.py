@@ -94,7 +94,6 @@ class MenuState(WorldState):
         self.GameEngine.Surface.SURFACE.fill(util.BLACK)
         super(MenuState, self).render()
 
-
 class GameStateController():
     def __init__(self, GameEngine):
         self.GameEngine = GameEngine
