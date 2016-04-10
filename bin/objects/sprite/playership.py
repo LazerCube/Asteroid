@@ -31,8 +31,7 @@ class PlayerShip(objects.Sprite):
         self.rotate_left = False
         self.rotate_right = False
         self.thrust = False
-
-        self.updateHitBox()
+        
         world.n_players += 1
 
     def handleInput(self):

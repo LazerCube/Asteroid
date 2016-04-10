@@ -11,10 +11,10 @@ class Objects(object):
         self.name = None
         self.position = [0, 0]
         self.velocity = [0, 0]
-        self.hitbox = [[-1, -1], [-1, 1],
-                       [-1, 1], [1, 1],
-                       [1, 1], [1, -1],
-                       [1, -1], [-1, -1]]
+        self.hitbox = [[-1, -1], [1, -1],
+                       [1, -1], [1, 1],
+                       [1, 1], [-1, 1],
+                       [-1, 1], [-1, -1]]
         self.hitbox_pos = [0,0]
         self.kill = False
         self.scale = 10
@@ -116,6 +116,8 @@ class Sprite(Objects):
         self.max_velocity = 45
         self.rotate = 0
 
+        self.updateHitBox()
+
     def rotate_by(self, angle):
         self.angle += angle
         self.angle %=360
@@ -204,6 +206,8 @@ class GUI(Objects):
 
         self.addtext(self.text, self.fontsize, self.color)
         self.worldstate.N_GUIobjects += 1
+
+        self.updateHitBox()
 
     def addtext(self, text, fontsize, color):
         self.GUIinfo = pygame.font.SysFont(self.font, fontsize)

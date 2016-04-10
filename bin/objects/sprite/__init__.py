@@ -1,1 +1,1 @@
-__all__ = ["playership"]
+__all__ = ["playership", "asteroid"]

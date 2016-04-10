@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from utilites import util
 from objects import objects
@@ -136,7 +137,13 @@ class GameState(WorldState):
         self.n_players = 0
         self.player = None
 
+        #Asteroid information
+        self.n_asteroids = 0
+
         self.addPlayer()
+
+        for i in range(0, 5):
+            asteroid.Asteroid(self, random.randint(50,100),1)
 
     def addPlayer(self):
         if not (self.player):
