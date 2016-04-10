@@ -134,17 +134,16 @@ class GameState(WorldState):
     def __init__(self, GameEngine):
         super(GameState, self).__init__(GameEngine)
         self.n_players = 0
-        self.pause = False
+        self.player = None
 
+        self.addPlayer()
+
+    def addPlayer(self):
+        if not (self.player):
+            self.player = playership.PlayerShip(self)
 
     def handleInput(self):
         super(GameState, self).handleInput()
-        if(self.GameEngine.keypad_0):
-            self.GameEngine.keypad_0 = False
-            playership.PlayerShip(self)
-        elif(self.GameEngine.keypad_1):
-            self.GameEngine.keypad_1 = False
-            label.Label(self, "Test", 49, util.TERM_BLUE, [50, 50])
 
     def fixedUpdate(self):
         super(GameState, self).fixedUpdate()
