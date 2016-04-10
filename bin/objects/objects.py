@@ -114,7 +114,7 @@ class Sprite(Objects):
         self.screen_points = []
 
         self.max_velocity = 45
-        self.rotate = 0
+        self.angular_velocity = 0
 
         self.updateHitBox()
 
@@ -139,7 +139,7 @@ class Sprite(Objects):
 
         super(Sprite, self).fixedUpdate()
 
-        self.rotate_by(self.rotate)
+        self.rotate_by(self.angular_velocity)
 
         for i in range(2):
             if (self.velocity[i] > self.max_velocity):
@@ -160,7 +160,7 @@ class Sprite(Objects):
         interp_velocity = self.velocity
 
         interp_angle = self.angle
-        interp_rotate = self.rotate
+        interp_rotate = self.angular_velocity
 
         view_position = [interp_position[0] + (interp_velocity[0]  * delta),
                          interp_position[1] + (interp_velocity[1]) * delta]

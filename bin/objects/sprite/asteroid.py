@@ -11,9 +11,9 @@ class Asteroid(objects.Sprite):
 
             self.angle = 0
             self.scale = scale
+            self.angular_velocity = 0
 
             self.updateHitBox()
-
             self.generate(max_speed)
 
 
@@ -38,8 +38,7 @@ class Asteroid(objects.Sprite):
         self.velocity = [random.random() * max_speed * 2 - max_speed,
                          random.random() * max_speed * 2 - max_speed]
 
-        self.angular_velocity =  random.random() * 4 - 2
+        self.angular_velocity =  random.random() * 5 - 2
 
     def fixedUpdate(self):
-        self.angle += self.angular_velocity
         super(Asteroid, self).fixedUpdate()

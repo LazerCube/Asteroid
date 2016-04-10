@@ -93,7 +93,7 @@ class GameEngine():
             self.state = world.GameStateController(self)
 
     def GameLoop(self):
-        MS_PER_TICK = 15.625 * 50
+        MS_PER_TICK = 15.625
         previous = pygame.time.get_ticks()
         self.lag = 0.0
 

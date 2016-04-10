@@ -31,7 +31,7 @@ class PlayerShip(objects.Sprite):
         self.rotate_left = False
         self.rotate_right = False
         self.thrust = False
-        
+
         world.n_players += 1
 
     def handleInput(self):
@@ -42,11 +42,11 @@ class PlayerShip(objects.Sprite):
 
     def fixedUpdate(self):
         if self.rotate_left:
-            self.rotate = (- self.rotate_speed)
+            self.angular_velocity = (- self.rotate_speed)
         elif self.rotate_right:
-            self.rotate = (self.rotate_speed)
+            self.angular_velocity = (self.rotate_speed)
         else:
-            self.rotate = 0
+            self.angular_velocity = 0
         if self.thrust:
             u = (self.speed * util.cos(self.angle - 90))
             v = (self.speed * util.sin(self.angle - 90))

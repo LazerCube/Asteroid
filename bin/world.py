@@ -143,7 +143,7 @@ class GameState(WorldState):
         self.addPlayer()
 
         for i in range(0, 5):
-            asteroid.Asteroid(self, random.randint(50,100),1)
+            asteroid.Asteroid(self, random.randint(50,100),5)
 
     def addPlayer(self):
         if not (self.player):
