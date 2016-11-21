@@ -16,8 +16,6 @@ class Asteroid(objects.Sprite):
             self.updateHitBox()
             self.generate(max_speed)
 
-
-
     def generate(self, max_speed):
         if random.randint(0,1) == 0:
             x = random.randint(0, self.GameEngine.Surface.WIDTH)

@@ -36,6 +36,8 @@ class PlayerShip(objects.Sprite):
         self.rotate_right = False
         self.thrust = False
 
+        self.primary_fire = False
+
         #Reloading
         self.reload_timer = False
         self.reload_timer = 0

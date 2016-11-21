@@ -6,7 +6,7 @@ PATH = os.getcwd()
 
 # ------DISPLAY INFO-----#
 
-SURFACE_WIDTH = 1080
+SURFACE_WIDTH = 800
 SURFACE_HEIGHT = SURFACE_WIDTH / 16 * 9
 SURFACE_CAPTION = "Python game engine"
 

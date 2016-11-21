@@ -104,8 +104,6 @@ class Debug(Objects):
         #self.worldstate.world.SURFACE.blit(self.text, self.text_position)
         self.GameEngine.Surface.SURFACE.blit(self.rendered_text, self.text_position)
 
-
-
 class Sprite(Objects):
     def __init__(self, world):
         super(Sprite, self).__init__(world)
@@ -179,6 +177,15 @@ class Sprite(Objects):
                               for x, y in self.points]
 
         super(Sprite, self).update(delta)
+
+    def test_collisions(self, possible_sprites):
+        pass
+
+    def collide(self, other):
+        pass
+
+    def impact(self, other):
+        pass
 
     def Draw(self):
         pygame.draw.lines(self.GameEngine.Surface.SURFACE,
