@@ -39,7 +39,7 @@ class GameEngine():
         self.DEBUG_MODE = settings.DEBUG_MODE
         self.DEBUG_INFO = "None"
 
-        self.commandLineArgs(argv)
+        self.command_line_args(argv)
 
         self.EXIT = False
 
@@ -82,18 +82,18 @@ class GameEngine():
         self.mouse_pressed = [False, False, False]
         self.mouse_pos = [0, 0]
 
-        self.SetState(0)
-        self.GameLoop()
+        self.set_state(0)
+        self.game_loop()
         self.exit()
 
-    def SetState(self, new_state):
+    def set_state(self, new_state):
         #self.state = self.GAMESTATE.reverse_mapping[new_state]
         if(new_state == 0):
             self.state = world.MenuState(self)
         elif(new_state == 1):
             self.state = world.GameStateController(self)
 
-    def GameLoop(self):
+    def game_loop(self):
         MS_PER_TICK = 15.625
         previous = pygame.time.get_ticks()
         self.lag = 0.0
@@ -108,17 +108,17 @@ class GameEngine():
             previous = current
             self.lag += elapsed
 
-            self.handleInput()
+            self.handle_input()
 
             while(self.lag >= MS_PER_TICK):
-                self.fixedUpdate()
+                self.fixed_update()
                 self.lag -= MS_PER_TICK
 
             delta = self.lag / MS_PER_TICK
             self.update(delta)
             self.render()
 
-    def handleInput(self):
+    def handle_input(self):
         for event in pygame.event.get():
             pygame.event.pump()
             if event.type == pygame.QUIT:
@@ -182,11 +182,11 @@ class GameEngine():
                     self.k_d = event.type == pygame.KEYDOWN
         self.mouse_pos = pygame.mouse.get_pos()
 
-        self.state.handleInput()
+        self.state.handle_input()
 
 
-    def fixedUpdate(self):
-        self.state.fixedUpdate()
+    def fixed_update(self):
+        self.state.fixed_update()
         self.ticks += 1
         if(pygame.time.get_ticks() - self.timer >= 1000):
             self.DEBUG_INFO = ("Ticks: %i  |  FPS: %i  |  " % (self.ticks, self.frames))
@@ -206,7 +206,7 @@ class GameEngine():
         pygame.quit()
         sys.exit()
 
-    def commandLineArgs(self, argv):
+    def command_line_args(self, argv):
        try:
            opts, args = getopt.getopt(argv,"hd")
        except getopt.GetoptError:
@@ -221,10 +221,10 @@ class GameEngine():
        if self.DEBUG_MODE:
            print("\n\n----------DEBUG----------\n\n")
 
-def _Initiate(argv):
+def initiate(argv):
     surface = Surface()
     game = GameEngine(argv, surface)
     pygame.quit()
 
 if __name__ == "__main__":
-    _Initiate(sys.argv[1:])
+    initiate(sys.argv[1:])

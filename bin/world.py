@@ -42,13 +42,13 @@ class WorldState(object):
         if self.DEBUG_MODE:
             print("Removing ", entitie)
 
-    def handleInput(self):
+    def handle_input(self):
         for i in self.objects:
-            i.handleInput()
+            i.handle_input()
 
-    def fixedUpdate(self):
+    def fixed_update(self):
         for i in self.objects:
-            i.fixedUpdate()
+            i.fixed_update()
 
     def update(self, delta):
         for i in self.objects:
@@ -56,15 +56,15 @@ class WorldState(object):
 
     def render(self):
         for i in self.objects:
-            i.Draw()
+            i.draw()
 
 class MenuState(WorldState):
     def __init__(self, GameEngine):
         super(MenuState, self).__init__(GameEngine)
 
-        self.setupMenu()
+        self.setup_menu()
 
-    def setupMenu(self):
+    def setup_menu(self):
         label.Label(self, "MENU", 60, util.TERM_BLUE,
                             [self.GameEngine.Surface.WIDTH / 2, 50])
 
@@ -82,11 +82,11 @@ class MenuState(WorldState):
         self.background_location = (((self.GameEngine.Surface.WIDTH / 2) - (x / 2)), 0, x, y)
 
 
-    def handleInput(self):
-        super(MenuState, self).handleInput()
+    def handle_input(self):
+        super(MenuState, self).handle_input()
 
-    def fixedUpdate(self):
-        super(MenuState, self).fixedUpdate()
+    def fixed_update(self):
+        super(MenuState, self).fixed_update()
 
     def update(self, delta):
         super(MenuState, self).update(delta)
@@ -108,7 +108,7 @@ class GameStateController():
     def set_game_state(self, new_state):
         self.state = self.GAMESTATE.reverse_mapping[new_state]
 
-    def handleInput(self):
+    def handle_input(self):
         if(self.GameEngine.escape):
             self.GameEngine.escape = False
             if not (self.pause):
@@ -118,11 +118,11 @@ class GameStateController():
                 self.set_game_state(0)
                 self.pause = False
 
-        self.state.handleInput()
+        self.state.handle_input()
 
 
-    def fixedUpdate(self):
-        self.state.fixedUpdate()
+    def fixed_update(self):
+        self.state.fixed_update()
 
     def update(self, delta):
         self.state.update(delta)
@@ -140,20 +140,20 @@ class GameState(WorldState):
         #Asteroid information
         self.n_asteroids = 0
 
-        self.addPlayer()
+        self.add_player()
 
         for i in range(0, 5):
             asteroid.Asteroid(self, random.randint(50,100),5)
 
-    def addPlayer(self):
+    def add_player(self):
         if not (self.player):
             self.player = playership.PlayerShip(self)
 
-    def handleInput(self):
-        super(GameState, self).handleInput()
+    def handle_input(self):
+        super(GameState, self).handle_input()
 
-    def fixedUpdate(self):
-        super(GameState, self).fixedUpdate()
+    def fixed_update(self):
+        super(GameState, self).fixed_update()
 
     def update(self, delta):
         super(GameState, self).update(delta)
@@ -166,9 +166,9 @@ class PauseState(WorldState):
     def __init__(self, GameEngine):
         super(PauseState, self).__init__(GameEngine)
 
-        self.setupMenu()
+        self.setup_menu()
 
-    def setupMenu(self):
+    def setup_menu(self):
         label.Label(self, "PAUSE", 60, util.TERM_BLUE,
                             [self.GameEngine.Surface.WIDTH / 2, 50])
 
@@ -183,11 +183,11 @@ class PauseState(WorldState):
         self.background_location = (((self.GameEngine.Surface.WIDTH / 2) - (x / 2)), 0, x, y)
 
 
-    def handleInput(self):
-        super(PauseState, self).handleInput()
+    def handle_input(self):
+        super(PauseState, self).handle_input()
 
-    def fixedUpdate(self):
-        super(PauseState, self).fixedUpdate()
+    def fixed_update(self):
+        super(PauseState, self).fixed_update()
 
     def update(self, delta):
         super(PauseState, self).update(delta)

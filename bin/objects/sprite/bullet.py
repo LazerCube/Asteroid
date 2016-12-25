@@ -13,8 +13,8 @@ class Bullet(objects.Sprite):
         self.life = 100
         self.angle = 0
 
-    def fixedUpdate(self):
-        super(Bullet, self).fixedUpdate()
+    def fixed_update(self):
+        super(Bullet, self).fixed_update()
 
         self.life -= 1
         if(self.life == 0):

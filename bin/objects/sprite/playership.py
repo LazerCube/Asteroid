@@ -57,15 +57,15 @@ class PlayerShip(objects.Sprite):
             self.reload_timer = 10
 
 
-    def handleInput(self):
-        super(PlayerShip, self).handleInput()
+    def handle_input(self):
+        super(PlayerShip, self).handle_input()
 
         self.thrust = self.GameEngine.k_up
         self.rotate_left = self.GameEngine.k_left
         self.rotate_right = self.GameEngine.k_right
         self.primary_fire = self.GameEngine.k_space
 
-    def fixedUpdate(self):
+    def fixed_update(self):
         if self.rotate_left:
             self.angular_velocity = (- self.rotate_speed)
         elif self.rotate_right:
@@ -83,7 +83,7 @@ class PlayerShip(objects.Sprite):
 
         self.reload_timer = max(0, self.reload_timer - 1)
 
-        super(PlayerShip, self).fixedUpdate()
+        super(PlayerShip, self).fixed_update()
 
-    def Draw(self):
-        super(PlayerShip, self).Draw()
+    def draw(self):
+        super(PlayerShip, self).draw()

@@ -11,8 +11,8 @@ class Button(objects.GUI):
     def on_click(self):
         pass
 
-    def fixedUpdate(self):
-        super(Button, self).fixedUpdate()
+    def fixed_update(self):
+        super(Button, self).fixed_update()
         if(self.mouse_active_press[0]):
             self.on_click()
 
@@ -21,20 +21,20 @@ class PlayButton(Button):
         super(PlayButton, self).__init__(world, text, fontsize, color, position)
 
     def on_click(self):
-        self.GameEngine.SetState(1)
+        self.GameEngine.set_state(1)
 
-    def fixedUpdate(self):
-        super(PlayButton, self).fixedUpdate()
+    def fixed_update(self):
+        super(PlayButton, self).fixed_update()
 
 class ExitToMainMenuButton(Button):
     def __init__(self, world, text, fontsize, color, position):
         super(ExitToMainMenuButton, self).__init__(world, text, fontsize, color, position)
 
     def on_click(self):
-        self.GameEngine.SetState(0)
+        self.GameEngine.set_state(0)
 
-    def fixedUpdate(self):
-        super(ExitToMainMenuButton, self).fixedUpdate()
+    def fixed_update(self):
+        super(ExitToMainMenuButton, self).fixed_update()
 
 class ExitButton(Button):
     def __init__(self, world, text, fontsize, color, position):
@@ -43,5 +43,5 @@ class ExitButton(Button):
     def on_click(self):
         self.GameEngine.EXIT = True
 
-    def fixedUpdate(self):
-        super(ExitButton, self).fixedUpdate()
+    def fixed_update(self):
+        super(ExitButton, self).fixed_update()
