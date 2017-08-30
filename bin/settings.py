@@ -13,7 +13,6 @@ TERM_GRAY = (44, 44, 44)
 TERM_LIGHT_GRAY = (102, 102, 102)
 DARK_BLUE = (40, 44, 52)
 
-
 # ------    DEBUG   ------#
 
 DEBUG_MODE = False
