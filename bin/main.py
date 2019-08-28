@@ -39,6 +39,8 @@ class GameEngine():
         self.DEBUG_MODE = settings.DEBUG_MODE
         self.DEBUG_INFO = "None"
 
+        self.TIME_MOD = 1
+
         self.command_line_args(argv)
 
         self.EXIT = False
@@ -103,7 +105,7 @@ class GameEngine():
             self.n_state = 1
 
     def game_loop(self):
-        MS_PER_TICK = 15.625
+        MS_PER_TICK = 15.625 * self.TIME_MOD
         previous = pygame.time.get_ticks()
         self.lag = 0.0
 

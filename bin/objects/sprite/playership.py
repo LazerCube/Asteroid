@@ -4,6 +4,9 @@ from utilites import util
 from objects import objects
 
 from objects.sprite import bullet
+from objects.sprite import asteroid
+
+from objects.particles.explosion import Explosion
 
 class PlayerShip(objects.Sprite):
     def __init__(self, world):
@@ -21,6 +24,7 @@ class PlayerShip(objects.Sprite):
                        [-5, 5], [-5, -10]]
 
         self.hover = False
+        self.collision = False
 
         self.name = "PlayerShip"
         self.velocity = [0, 0]
@@ -86,6 +90,18 @@ class PlayerShip(objects.Sprite):
         self.reload_timer = max(0, self.reload_timer - 1)
 
         super(PlayerShip, self).fixed_update()
+
+    def impact(self, other):
+        if isinstance(other, asteroid.Asteroid):
+            # self.world.particle.explosion(100, self.position, self.velocity, 50, 300)
+            self.kill()
+
+    def collide(self, other):
+        pass
+    
+    def kill(self):
+        Explosion(self.worldstate, self.color, self.position, self.velocity, n_points=100, min_life=50, max_life=300)
+        super(PlayerShip ,self).kill()
 
     def draw(self):
         super(PlayerShip, self).draw()

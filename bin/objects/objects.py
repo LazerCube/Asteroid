@@ -1,7 +1,8 @@
 import pygame
 import settings
-from utilites import util
+import math
 
+from utilites import util
 
 class Objects(object):
     def __init__(self, world):
@@ -16,7 +17,7 @@ class Objects(object):
                        [1, 1], [-1, 1],
                        [-1, 1], [-1, -1]]
         self.hitbox_pos = [0,0]
-        self.kill = False
+        self.alive = True
         self.scale = 10
         self.angle = 0
         self.color = util.WHITE
@@ -54,9 +55,7 @@ class Objects(object):
     def fixed_update(self):
         if(self.mouse_active_press[0]):
             if(self.GameEngine.delete):
-                self.kill = True
-        if self.kill:
-            self.worldstate.remove(self)
+                self.kill()
 
         self.update_hit_box()
 
@@ -75,6 +74,11 @@ class Objects(object):
                 else:
                     pygame.draw.circle(self.GameEngine.Surface.SURFACE, util.GREEN,
                                        (self.hitbox_pos[i]), 5, 0)
+                        
+    def kill(self):
+        if self.alive:
+            self.alive = False
+            self.worldstate.remove(self)
 
 class Debug(Objects):
     def __init__(self, world):
@@ -110,11 +114,14 @@ class Sprite(Objects):
         self.worldstate.n_sprite += 1
         self.points = []
         self.screen_points = []
+        self.tested_collision = False
 
         self.max_velocity = 45
         self.angular_velocity = 0
 
         self.hover = False
+
+        self.collision = True
 
         self.update_hit_box()
 
@@ -133,10 +140,21 @@ class Sprite(Objects):
             else:
                 self.color = util.WHITE
 
-    def fixed_update(self):
-        if self.kill:
-            self.worldstate.n_sprite -= 1
+    def update_collision_map(self):
+        self.tested_collision = False
 
+        map_x = int(self.position[0] / self.worldstate.COLLISION_MAP_RESOLUTION)
+        map_y = int(self.position[1] / self.worldstate.COLLISION_MAP_RESOLUTION)
+
+        # Tells collision map what squares this object is occupying
+        for a in range(map_x - 1, map_x + 2):
+            for b in range(map_y - 1, map_y + 2):
+                current_map_cell = self.worldstate.collision_map[a % self.worldstate.COLLISION_MAP_WIDTH][b % self.worldstate.COLLISION_MAP_HEIGHT]
+                if not current_map_cell == []:
+                    self.test_collisions(current_map_cell)
+                current_map_cell.append(self)
+
+    def fixed_update(self):
         super(Sprite, self).fixed_update()
 
         self.rotate_by(self.angular_velocity)
@@ -153,7 +171,9 @@ class Sprite(Objects):
 
         self.position[0] %= self.GameEngine.Surface.WIDTH
         self.position[1] %= self.GameEngine.Surface.HEIGHT
+
         self.update_hit_box()
+        self.update_collision_map()
 
     def update(self, delta):
         interp_position = self.position
@@ -179,13 +199,73 @@ class Sprite(Objects):
         super(Sprite, self).update(delta)
 
     def test_collisions(self, possible_sprites):
-        pass
+        width = self.GameEngine.Surface.WIDTH
+        height = self.GameEngine.Surface.HEIGHT
+
+        for other in possible_sprites:
+            # if other == self:
+            #     continue
+            # if other.tested_collision:
+            #     continue
+
+            if other.alive:
+                dx = self.position[0] - other.position[0]
+                dy = self.position[1] - other.position[1]
+
+                if dx > width / 2:
+                    dx -= width
+                elif dx < -width / 2:
+                    dx += width
+
+                if dy > height / 2:
+                    dy -= height
+                elif dy < -height / 2:
+                    dy += height
+
+                d2 = dx * dx + dy * dy 
+                t = self.scale + other.scale
+                t2 = t * t
+                if d2 > t2:
+                    continue
+                
+                d = math.sqrt(d2)
+                if d == 0:
+                    d = 0.0001
+                u = dx / d
+                v = dy / d
+
+                overlap = d - t
+
+                other.position[0] += u * overlap 
+                other.position[0] %= width
+                other.position[1] += v * overlap
+                other.position[1] %= height
+
+                self.impact(other)
+                other.impact(self)
+
+                if self.alive:
+                    self.collide(other)
+
+                self.tested_collision = True
 
     def collide(self, other):
-        pass
+        if self.collision:
+            if other.collision:
+                x = other.velocity[0]
+                other.velocity[0] = self.velocity[0]
+                self.velocity[0] = x
+
+                y = other.velocity[1]
+                other.velocity[1] = self.velocity[1]
+                self.velocity[1] = y
 
     def impact(self, other):
         pass
+
+    def kill(self):
+        self.worldstate.n_sprite -= 1
+        super(Sprite ,self).kill()
 
     def draw(self):
         pygame.draw.lines(self.GameEngine.Surface.SURFACE,
@@ -252,8 +332,6 @@ class GUI(Objects):
 
 
     def fixed_update(self):
-        if self.kill:
-            self.worldstate.N_GUIobjects -= 1
         super(GUI, self).fixed_update()
 
         if self.hover:
@@ -265,6 +343,88 @@ class GUI(Objects):
     def update(self, delta):
         pass
 
+    def kill(self):
+        self.worldstate.N_GUIobjects -= 1
+        super(GUI ,self).kill()
+
     def draw(self):
         super(GUI, self).draw()
         self.GameEngine.Surface.SURFACE.blit(self.GUI, self.new_position)
+
+class ParticleSystem(Objects):
+    def __init__(self, world, color, position):
+        super(ParticleSystem, self).__init__(world)
+
+        self.name = None
+        self.position = position
+        self.velocity = None
+        self.hitbox = None
+        self.hitbox_pos = None
+        self.scale = 1
+        self.color = color
+
+        self.show_particles = True
+
+        self.particles = {}
+        self.particle_index = 0
+    
+    def update_hit_box(self):
+        pass
+
+    def handle_input(self):
+        pass
+
+    def show(self, show_particles):
+        self.show_particles = show_particles
+
+    def add(self, velocity, life):
+        if not self.show_particles:
+            return
+
+        particle = [life,
+                     self.position[0], self.position[1], 
+                    velocity[0], velocity[1]]
+        self.particles[self.particle_index] = particle
+        self.particle_index += 1
+
+    def n_particles(self):
+        return len(self.particles)
+
+    def remove_all(self):
+        self.particles = {}
+
+    def fixed_update(self):
+        if not self.show_particles:
+            return
+
+        keys = self.particles.keys()
+        if keys:
+            for i in keys:
+                part = self.particles[i]
+                if part[0] > 0:
+                    part[0] -= 1
+                    if part[0] == 0:
+                        del self.particles[i]
+                        continue
+
+                    part[1] += part[3]
+                    part[2] += part[4]
+                    
+                    part[1] %= self.GameEngine.Surface.WIDTH
+                    part[2] %= self.GameEngine.Surface.HEIGHT
+        else:
+            self.kill()
+
+    def draw(self):
+        if not self.show_particles:
+            return
+
+        for i in self.particles:
+            part = self.particles[i]
+            rect = [part[1], part[2], 3, 3]
+            pygame.draw.rect(self.GameEngine.Surface.SURFACE, self.color, rect)
+                        
+    def kill(self):
+        if self.alive:
+            self.alive = False
+            self.worldstate.remove(self)

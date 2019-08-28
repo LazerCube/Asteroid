@@ -13,9 +13,14 @@ class Bullet(objects.Sprite):
         self.life = 100
         self.angle = 0
 
+        self.collision = False
+
+    def collide(self, other):
+        pass
+
     def fixed_update(self):
         super(Bullet, self).fixed_update()
 
         self.life -= 1
         if(self.life == 0):
-            self.kill =True
+            self.kill()

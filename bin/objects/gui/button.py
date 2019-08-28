@@ -17,31 +17,13 @@ class Button(objects.GUI):
             self.on_click()
 
 class PlayButton(Button):
-    def __init__(self, world, text, fontsize, color, position):
-        super(PlayButton, self).__init__(world, text, fontsize, color, position)
-
     def on_click(self):
         self.GameEngine.set_state(1)
 
-    def fixed_update(self):
-        super(PlayButton, self).fixed_update()
-
 class ExitToMainMenuButton(Button):
-    def __init__(self, world, text, fontsize, color, position):
-        super(ExitToMainMenuButton, self).__init__(world, text, fontsize, color, position)
-
     def on_click(self):
         self.GameEngine.set_state(0)
 
-    def fixed_update(self):
-        super(ExitToMainMenuButton, self).fixed_update()
-
 class ExitButton(Button):
-    def __init__(self, world, text, fontsize, color, position):
-        super(ExitButton, self).__init__(world, text, fontsize, color, position)
-
     def on_click(self):
         self.GameEngine.EXIT = True
-
-    def fixed_update(self):
-        super(ExitButton, self).fixed_update()

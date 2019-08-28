@@ -1,6 +1,8 @@
 import pygame
 import random
 
+import math
+
 from utilites import util
 from objects import objects
 
@@ -27,6 +29,13 @@ class WorldState(object):
         self.n_sprite = 0
         self.N_GUIobjects = 0
 
+        # Collision map
+        self.COLLISION_MAP_RESOLUTION = 100
+        self.COLLISION_MAP_HEIGHT = int(math.ceil(float(self.GameEngine.Surface.HEIGHT) / self.COLLISION_MAP_RESOLUTION))
+        self.COLLISION_MAP_WIDTH = int(math.ceil(float(self.GameEngine.Surface.WIDTH) / self.COLLISION_MAP_RESOLUTION))
+
+        self.collision_map = []
+
         if self.DEBUG_MODE:
             objects.Debug(self)
 
@@ -47,6 +56,12 @@ class WorldState(object):
             i.handle_input()
 
     def fixed_update(self):
+        # Initalize map with empty values.
+        self.collision_map = []
+        for x in range(self.COLLISION_MAP_WIDTH):
+            map_row = [[] for y in range(self.COLLISION_MAP_HEIGHT)]
+            self.collision_map.append(map_row)
+
         for i in self.objects:
             i.fixed_update()
 
@@ -142,6 +157,15 @@ class GameState(WorldState):
 
         self.add_player()
 
+        self.score = 0
+        self.level = 1
+
+        self.score_label = label.ValueLabel(self, "Score", 35, util.WHITE,
+                        [self.GameEngine.Surface.WIDTH / 2, 35])
+
+        self.level_label = label.ValueLabel(self, "Level", 35, util.WHITE,
+                        [self.GameEngine.Surface.WIDTH / 2, 65], self.level)
+
         for i in range(0, 2):
             asteroid.Asteroid(self, random.randint(50,100),2)
 
@@ -156,6 +180,18 @@ class GameState(WorldState):
         super(GameState, self).fixed_update()
 
     def update(self, delta):
+        if self.player and not self.player.alive:
+            self.player = None
+            label.Label(self, "GAME OVER", 60, util.RED,
+                        [self.GameEngine.Surface.WIDTH / 2, self.GameEngine.Surface.HEIGHT / 2])
+
+        if self.n_asteroids is 0:
+            for i in range(0, self.level + 2):
+                asteroid.Asteroid(self, random.randint(50,100),2)
+            self.level += 1
+            self.level_label.value = self.level
+
+        self.score_label.value = self.score
         super(GameState, self).update(delta)
 
     def render(self):
