@@ -36,11 +36,9 @@ def cos(angle):
     x = math.radians(angle)
     return math.cos(x)
 
-
 def sin(angle):
     x = math.radians(angle)
     return math.sin(x)
-
 
 def enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)

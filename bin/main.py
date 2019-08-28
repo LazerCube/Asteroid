@@ -48,6 +48,7 @@ class GameEngine():
 
         # Events
         self.resize = False
+        self.reload = False
 
         # Keyboard Inputs
         self.escape = False
@@ -78,11 +79,17 @@ class GameEngine():
         self.k_2 = False
         self.k_3 = False
 
+        # Keyboard Function keys
+        self.k_f4 = False
+
         # Mouse Inputs
         self.mouse_pressed = [False, False, False]
         self.mouse_pos = [0, 0]
 
-        self.set_state(0)
+        # CURRENT STATE AS INT (TEMP)
+        self.n_state = 0
+
+        self.set_state(self.n_state)
         self.game_loop()
         self.exit()
 
@@ -90,8 +97,10 @@ class GameEngine():
         #self.state = self.GAMESTATE.reverse_mapping[new_state]
         if(new_state == 0):
             self.state = world.MenuState(self)
+            self.n_state = 0
         elif(new_state == 1):
             self.state = world.GameStateController(self)
+            self.n_state = 1
 
     def game_loop(self):
         MS_PER_TICK = 15.625
@@ -136,6 +145,12 @@ class GameEngine():
                             self.escape = False
                         else:
                             self.escape = True
+                if event.key == pygame.K_F4:
+                    if (event.type == pygame.KEYDOWN):
+                        if(self.reload == True):
+                            self.reload = False
+                        else:
+                            self.reload = True
                 elif event.key == pygame.K_DELETE:
                     self.delete = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_SPACE:
@@ -180,10 +195,24 @@ class GameEngine():
                     self.k_a = event.type == pygame.KEYDOWN
                 elif event.key == pygame.K_d:
                     self.k_d = event.type == pygame.KEYDOWN
-        self.mouse_pos = pygame.mouse.get_pos()
 
+        self.mouse_pos = pygame.mouse.get_pos()
         self.state.handle_input()
 
+        # if(self.reload):
+        #     self.reload_world()
+        #     self.reload = False
+
+    # def clean(self):
+    #     print("CLEAN")
+    #
+    # def reload_world(self):
+    #     print("RELOAD START!")
+    #     self.clean()
+    #     reload(settings)
+    #     reload(world)
+    #     self.set_state(self.n_state)
+    #     print("RELOADED!")
 
     def fixed_update(self):
         self.state.fixed_update()
