@@ -69,13 +69,13 @@ class MenuState(WorldState):
                             [self.GameEngine.Surface.WIDTH / 2, 50])
 
         button.PlayButton(self, "Play", 35, util.WHITE,
-                            [self.GameEngine.Surface.WIDTH / 2, 325])
+                            [self.GameEngine.Surface.WIDTH / 2, 225])
 
         button.Button(self, "Settings", 35, util.WHITE,
-                            [self.GameEngine.Surface.WIDTH / 2, 375])
+                            [self.GameEngine.Surface.WIDTH / 2, 275])
 
         button.ExitButton(self, "Exit To Desktop", 35, util.WHITE,
-                            [self.GameEngine.Surface.WIDTH / 2, 425])
+                            [self.GameEngine.Surface.WIDTH / 2, 325])
 
         x = 200
         y = 450
@@ -142,8 +142,8 @@ class GameState(WorldState):
 
         self.add_player()
 
-        for i in range(0, 5):
-            asteroid.Asteroid(self, random.randint(50,100),5)
+        for i in range(0, 2):
+            asteroid.Asteroid(self, random.randint(50,100),2)
 
     def add_player(self):
         if not (self.player):
@@ -176,7 +176,7 @@ class PauseState(WorldState):
                             [self.GameEngine.Surface.WIDTH / 2, 300])
 
         button.ExitToMainMenuButton(self, "Exit to Main Menu", 35, util.WHITE,
-                            [self.GameEngine.Surface.WIDTH / 2, 400])
+                            [self.GameEngine.Surface.WIDTH / 2, 350])
 
         x = 250
         y = 450
