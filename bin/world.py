@@ -166,7 +166,7 @@ class GameState(WorldState):
         self.level_label = label.ValueLabel(self, "Level", 35, util.WHITE,
                         [self.GameEngine.Surface.WIDTH / 2, 65], self.level)
 
-        for i in range(0, 2):
+        for i in range(0, 1):
             asteroid.Asteroid(self, random.randint(50,100),2)
 
     def add_player(self):
@@ -186,7 +186,7 @@ class GameState(WorldState):
                         [self.GameEngine.Surface.WIDTH / 2, self.GameEngine.Surface.HEIGHT / 2])
 
         if self.n_asteroids is 0:
-            for i in range(0, self.level + 2):
+            for i in range(0, (2**self.level)):
                 asteroid.Asteroid(self, random.randint(50,100),2)
             self.level += 1
             self.level_label.value = self.level

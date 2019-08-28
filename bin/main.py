@@ -8,12 +8,15 @@ import settings
 from utilites import util
 
 class Surface():
-    def __init__(self):
+    def __init__(self, full_screen):
         pygame.init()
 
-        self.SURFACE = pygame.display.set_mode(
-                [util.SURFACE_WIDTH, util.SURFACE_HEIGHT], pygame.HWSURFACE |
-                pygame.DOUBLEBUF)
+        if full_screen:
+            self.SURFACE = pygame.display.set_mode([0, 0], pygame.FULLSCREEN)
+        else:
+            self.SURFACE = pygame.display.set_mode(
+                        [util.SURFACE_WIDTH, util.SURFACE_HEIGHT], pygame.HWSURFACE |
+                        pygame.DOUBLEBUF)
 
         self.WIDTH = self.SURFACE.get_width()
         self.HEIGHT = self.SURFACE.get_height()
@@ -33,15 +36,16 @@ class Surface():
         pygame.display.set_icon(icon)
 
 class GameEngine():
-    def __init__(self, argv, surface):
+    def __init__(self, surface, debug):
         self.Surface = surface
 
-        self.DEBUG_MODE = settings.DEBUG_MODE
+        self.DEBUG_MODE = debug
         self.DEBUG_INFO = "None"
 
-        self.TIME_MOD = 1
+        if self.DEBUG_MODE:
+            print("\n\n----------DEBUG----------\n\n")
 
-        self.command_line_args(argv)
+        self.TIME_MOD = 1
 
         self.EXIT = False
 
@@ -237,24 +241,28 @@ class GameEngine():
         pygame.quit()
         sys.exit()
 
-    def command_line_args(self, argv):
-       try:
-           opts, args = getopt.getopt(argv,"hd")
-       except getopt.GetoptError:
-           print '\nUsage main.py [-h] [-d]'
-           sys.exit(2)
-       for opt, arg in opts:
-           if opt == '-h':
-               print '\nOptional arguments: \n\n -h, --help  Shows this help message and exit\n -d, --debug  Runs program in debug mode.'
-               sys.exit()
-           elif opt in ("-d", "--debug"):
-               self.DEBUG_MODE = True
-       if self.DEBUG_MODE:
-           print("\n\n----------DEBUG----------\n\n")
-
 def initiate(argv):
-    surface = Surface()
-    game = GameEngine(argv, surface)
+    DEBUG_MODE = settings.DEBUG_MODE
+    FULLSCREEN = False
+
+    try:
+        opts, args = getopt.getopt(argv,"hdf")
+    except getopt.GetoptError:
+        print '\nUsage main.py [-h] [-d] [-f]'
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print("\nOptional arguments:\n\n-h, --help  Shows this help message.")
+            print("-d, --debug  Runs program in debug mode.")
+            print("-f, --fullscreen Runs program in fullscreen mode.")
+            sys.exit()
+        elif opt in ("-d", "--debug"):
+            DEBUG_MODE = True
+        elif opt in ("-f", "--fullscreen"):
+            FULLSCREEN = True
+
+    surface = Surface(FULLSCREEN)
+    game = GameEngine(surface, DEBUG_MODE)
     pygame.quit()
 
 if __name__ == "__main__":

@@ -57,7 +57,7 @@ class Asteroid(objects.Sprite):
             other.kill()
             self.kill()
 
-            if self.scale > 15:
+            if self.scale > 25:
                 n = random.randint(2, max(2, min(5, self.scale / 5)))
                 for i in range(n):
                     new_asteroid = Asteroid(self.worldstate, self.scale / n, 1)
