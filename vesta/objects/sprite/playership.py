@@ -1,14 +1,15 @@
 import pygame
 
-from utilites import util
-from objects import objects
+from vesta.utilites import util
 
-from objects.sprite import bullet
-from objects.sprite import asteroid
+from vesta.objects.objects import Sprite
 
-from objects.particle.explosion import Explosion
+from vesta.objects.sprite.bullet import Bullet
+from vesta.objects.sprite.asteroid import Asteroid
 
-class PlayerShip(objects.Sprite):
+from vesta.objects.particle.explosion import Explosion
+
+class PlayerShip(Sprite):
     def __init__(self, world):
         super(PlayerShip, self).__init__(world)
         self.world = world
@@ -53,7 +54,7 @@ class PlayerShip(objects.Sprite):
             a = util.cos(self.angle - 90)
             b = util.sin(self.angle - 90)
 
-            projectile = bullet.Bullet(self.world)
+            projectile = Bullet(self.world)
             projectile.position = [self.position[0] + self.scale * a,
                                     self.position[1] + self.scale * b]
             projectile.velocity = [a * 7.0 + self.velocity[0],
@@ -92,7 +93,7 @@ class PlayerShip(objects.Sprite):
         super(PlayerShip, self).fixed_update()
 
     def impact(self, other):
-        if isinstance(other, asteroid.Asteroid):
+        if isinstance(other, Asteroid):
             # self.world.particle.explosion(100, self.position, self.velocity, 50, 300)
             self.kill()
 

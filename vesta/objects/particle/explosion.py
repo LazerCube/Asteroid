@@ -1,9 +1,9 @@
 import random
 
-from utilites import util
-from objects import objects
+from vesta.utilites import util
+from vesta.objects.objects import ParticleSystem
 
-class Explosion(objects.ParticleSystem):
+class Explosion(ParticleSystem):
     def __init__(self, world, color, position, velocity, particle_speed=4, n_points=10, min_life=10, max_life=35):
         super(Explosion, self).__init__(world, color, position)
 

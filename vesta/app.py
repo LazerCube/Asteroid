@@ -3,9 +3,8 @@ import sys
 import getopt
 import pygame
 
-import world
-import settings
-from utilites import util
+from vesta.config import settings
+from vesta import world
 
 class Surface():
     def __init__(self, full_screen):
@@ -15,7 +14,7 @@ class Surface():
             self.SURFACE = pygame.display.set_mode([0, 0], pygame.FULLSCREEN)
         else:
             self.SURFACE = pygame.display.set_mode(
-                        [util.SURFACE_WIDTH, util.SURFACE_HEIGHT], pygame.HWSURFACE |
+                        [settings.SURFACE_WIDTH, settings.SURFACE_HEIGHT], pygame.HWSURFACE |
                         pygame.DOUBLEBUF)
 
         self.WIDTH = self.SURFACE.get_width()
@@ -24,8 +23,8 @@ class Surface():
         self.CAPTION = None
         self.ICON = None
 
-        self.set_caption(util.SURFACE_CAPTION)
-        self.set_icon(util.ICON)
+        self.set_caption(settings.SURFACE_CAPTION)
+        self.set_icon(settings.ICON)
 
     def set_caption(self, caption):
         self.CAPTION = caption
@@ -264,6 +263,3 @@ def initiate(argv):
     surface = Surface(FULLSCREEN)
     game = GameEngine(surface, DEBUG_MODE)
     pygame.quit()
-
-if __name__ == "__main__":
-    initiate(sys.argv[1:])
