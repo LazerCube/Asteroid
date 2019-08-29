@@ -6,7 +6,7 @@ from objects import objects
 from objects.sprite import bullet
 from objects.sprite import asteroid
 
-from objects.particles.explosion import Explosion
+from objects.particle.explosion import Explosion
 
 class PlayerShip(objects.Sprite):
     def __init__(self, world):

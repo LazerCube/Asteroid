@@ -5,7 +5,7 @@ from utilites import util
 from objects import objects
 
 from objects.sprite import bullet
-from objects.particles.explosion import Explosion
+from objects.particle.explosion import Explosion
 
 class Asteroid(objects.Sprite):
     def __init__(self, world, scale, max_speed):
