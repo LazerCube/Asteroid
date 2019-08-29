@@ -12,5 +12,5 @@ Vesta, a simple asteroids game.
 Optional arguments:
 
 ```python
-python main.py [-h] [-f] [-i] [-d]
+python -m vesta [-h] [-f] [-i] [-d]
 ```
