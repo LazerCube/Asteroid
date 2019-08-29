@@ -171,6 +171,9 @@ class GameState(WorldState):
         super(GameState, self).__init__(GameEngine)
 
     def reset_world(self):
+        if self.DEBUG_MODE:
+            print("(-- Resetting world --)")
+            
         super(GameState, self).reset_world()
 
         self.n_players = 0
