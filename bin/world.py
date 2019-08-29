@@ -10,6 +10,11 @@ from objects.sprite import *
 from objects.gui import *
 
 class WorldState(object):
+    objects = []
+    n_objects = 0
+    n_sprite = 0
+    N_GUIobjects = 0
+
     def __init__(self, GameEngine):
         self.GameEngine = GameEngine
 
@@ -23,12 +28,6 @@ class WorldState(object):
         # MENU TOGGLE
         self.statechange = True
 
-        # World variables
-        self.objects = []
-        self.n_objects = 0
-        self.n_sprite = 0
-        self.N_GUIobjects = 0
-
         # Collision map
         self.COLLISION_MAP_RESOLUTION = 100
         self.COLLISION_MAP_HEIGHT = int(math.ceil(float(self.GameEngine.Surface.HEIGHT) / self.COLLISION_MAP_RESOLUTION))
@@ -38,6 +37,15 @@ class WorldState(object):
 
         if self.DEBUG_MODE:
             objects.Debug(self)
+
+        self.reset_world()
+
+    def reset_world(self):
+         # World variables
+        self.objects = []
+        self.n_objects = 0
+        self.n_sprite = 0
+        self.N_GUIobjects = 0
 
     def add(self, entitie):
         self.n_objects += 1
@@ -86,11 +94,14 @@ class MenuState(WorldState):
         button.PlayButton(self, "Play", 35, util.WHITE,
                             [self.GameEngine.Surface.WIDTH / 2, 225])
 
-        button.Button(self, "Settings", 35, util.WHITE,
-                            [self.GameEngine.Surface.WIDTH / 2, 275])
-
         button.ExitButton(self, "Exit To Desktop", 35, util.WHITE,
-                            [self.GameEngine.Surface.WIDTH / 2, 325])
+            [self.GameEngine.Surface.WIDTH / 2, 275])
+
+        # button.Button(self, "Settings", 35, util.WHITE,
+        #                     [self.GameEngine.Surface.WIDTH / 2, 275])
+
+        # button.ExitButton(self, "Exit To Desktop", 35, util.WHITE,
+        #                     [self.GameEngine.Surface.WIDTH / 2, 325])
 
         x = 200
         y = 450
@@ -147,16 +158,21 @@ class GameStateController():
 
 
 class GameState(WorldState):
+    n_players = 0
+    player = None
+    n_asteroids = 0
+    score = 0
+    level = 1
+
     def __init__(self, GameEngine):
         super(GameState, self).__init__(GameEngine)
+
+    def reset_world(self):
+        super(GameState, self).reset_world()
+
         self.n_players = 0
         self.player = None
-
-        #Asteroid information
         self.n_asteroids = 0
-
-        self.add_player()
-
         self.score = 0
         self.level = 1
 
@@ -168,6 +184,8 @@ class GameState(WorldState):
 
         for i in range(0, 1):
             asteroid.Asteroid(self, random.randint(50,100),2)
+
+        self.add_player()
 
     def add_player(self):
         if not (self.player):
@@ -184,6 +202,9 @@ class GameState(WorldState):
             self.player = None
             label.Label(self, "GAME OVER", 60, util.RED,
                         [self.GameEngine.Surface.WIDTH / 2, self.GameEngine.Surface.HEIGHT / 2])
+            
+            button.ResetButton(self, "Try again?", 40, util.WHITE,
+                   [self.GameEngine.Surface.WIDTH / 2, (self.GameEngine.Surface.HEIGHT / 2) + 35])
 
         if self.n_asteroids is 0:
             for i in range(0, (2**self.level)):

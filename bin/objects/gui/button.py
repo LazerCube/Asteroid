@@ -27,3 +27,7 @@ class ExitToMainMenuButton(Button):
 class ExitButton(Button):
     def on_click(self):
         self.GameEngine.EXIT = True
+
+class ResetButton(Button):
+    def on_click(self):
+        self.worldstate.reset_world()
