@@ -47,7 +47,7 @@ class WorldState(object):
 
         self.n_debug_objects = 0
 
-        if self.DEBUG_MODE:
+        if self.GameEngine.INFO_MODE:
             Debug(self)
 
     def add(self, entitie):
@@ -173,7 +173,7 @@ class GameState(WorldState):
     def reset_world(self):
         if self.DEBUG_MODE:
             print("(-- Resetting world --)")
-            
+
         super(GameState, self).reset_world()
 
         self.n_players = 0

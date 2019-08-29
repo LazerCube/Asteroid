@@ -35,11 +35,13 @@ class Surface():
         pygame.display.set_icon(icon)
 
 class GameEngine():
-    def __init__(self, surface, debug):
+    def __init__(self, surface, info, debug):
         self.Surface = surface
 
         self.DEBUG_MODE = debug
         self.DEBUG_INFO = "None"
+
+        self.INFO_MODE = info
 
         if self.DEBUG_MODE:
             print("\n\n----------DEBUG----------\n\n")
@@ -243,23 +245,28 @@ class GameEngine():
 def initiate(argv):
     DEBUG_MODE = settings.DEBUG_MODE
     FULLSCREEN = False
+    INFO_MODE = False
 
     try:
-        opts, args = getopt.getopt(argv,"hdf")
+        opts, args = getopt.getopt(argv,"hdfi")
     except getopt.GetoptError:
-        print '\nUsage main.py [-h] [-d] [-f]'
+        print '\nUsage main.py [-h] [-d] [-f] [-i]'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
             print("\nOptional arguments:\n\n-h, --help  Shows this help message.")
             print("-d, --debug  Runs program in debug mode.")
+            print("-i, --info Shows fps as well as other engine stats.")
             print("-f, --fullscreen Runs program in fullscreen mode.")
             sys.exit()
         elif opt in ("-d", "--debug"):
             DEBUG_MODE = True
+            INFO_MODE = True
+        elif opt in ("-i", "--info"):
+            INFO_MODE = True
         elif opt in ("-f", "--fullscreen"):
             FULLSCREEN = True
 
     surface = Surface(FULLSCREEN)
-    game = GameEngine(surface, DEBUG_MODE)
+    game = GameEngine(surface, INFO_MODE, DEBUG_MODE)
     pygame.quit()
