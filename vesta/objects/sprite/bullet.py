@@ -1,10 +1,9 @@
 import pygame
 import random
 
-from utilites import util
-from objects import objects
+from vesta.objects.objects import Sprite
 
-class Bullet(objects.Sprite):
+class Bullet(Sprite):
     def __init__(self, world):
         super(Bullet, self).__init__(world)
 

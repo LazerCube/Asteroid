@@ -1,9 +1,8 @@
 import pygame
 
-from utilites import util
-from objects import objects
+from vesta.objects.objects import GUI
 
-class Label(objects.GUI):
+class Label(GUI):
     def __init__(self, world, text, fontsize, color, position):
         super(Label, self).__init__(world, text, fontsize, color, position)
         self.hover = False

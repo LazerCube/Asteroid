@@ -1,26 +1,27 @@
 import pygame
 import random
-
 import math
 
-from utilites import util
-from objects import objects
+from vesta.config import settings
 
-from objects.sprite import *
-from objects.gui import *
+from vesta.utilites import util
+
+from vesta.objects.sprite import *
+from vesta.objects.gui import *
+
+from vesta.objects.objects import Debug
 
 class WorldState(object):
     objects = []
     n_objects = 0
     n_sprite = 0
-    N_GUIobjects = 0
+    n_gui_objects = 0
 
     def __init__(self, GameEngine):
         self.GameEngine = GameEngine
 
         #DEBUG variables
         self.DEBUG_MODE = self.GameEngine.DEBUG_MODE
-        self.n_DEBUG_objects = 0
 
         self.once = True
         self.stateref = 0
@@ -35,9 +36,6 @@ class WorldState(object):
 
         self.collision_map = []
 
-        if self.DEBUG_MODE:
-            objects.Debug(self)
-
         self.reset_world()
 
     def reset_world(self):
@@ -45,7 +43,12 @@ class WorldState(object):
         self.objects = []
         self.n_objects = 0
         self.n_sprite = 0
-        self.N_GUIobjects = 0
+        self.n_gui_objects = 0
+
+        self.n_debug_objects = 0
+
+        if self.GameEngine.INFO_MODE:
+            Debug(self)
 
     def add(self, entitie):
         self.n_objects += 1
@@ -88,19 +91,19 @@ class MenuState(WorldState):
         self.setup_menu()
 
     def setup_menu(self):
-        label.Label(self, "MENU", 60, util.TERM_BLUE,
+        label.Label(self, "MENU", 60, settings.TERM_BLUE,
                             [self.GameEngine.Surface.WIDTH / 2, 50])
 
-        button.PlayButton(self, "Play", 35, util.WHITE,
+        button.PlayButton(self, "Play", 35, settings.WHITE,
                             [self.GameEngine.Surface.WIDTH / 2, 225])
 
-        button.ExitButton(self, "Exit To Desktop", 35, util.WHITE,
+        button.ExitButton(self, "Exit To Desktop", 35, settings.WHITE,
             [self.GameEngine.Surface.WIDTH / 2, 275])
 
-        # button.Button(self, "Settings", 35, util.WHITE,
+        # button.Button(self, "Settings", 35, settings.WHITE,
         #                     [self.GameEngine.Surface.WIDTH / 2, 275])
 
-        # button.ExitButton(self, "Exit To Desktop", 35, util.WHITE,
+        # button.ExitButton(self, "Exit To Desktop", 35, settings.WHITE,
         #                     [self.GameEngine.Surface.WIDTH / 2, 325])
 
         x = 200
@@ -118,7 +121,7 @@ class MenuState(WorldState):
         super(MenuState, self).update(delta)
 
     def render(self):
-        self.GameEngine.Surface.SURFACE.fill(util.BLACK)
+        self.GameEngine.Surface.SURFACE.fill(settings.BLACK)
         super(MenuState, self).render()
 
 class GameStateController():
@@ -168,6 +171,9 @@ class GameState(WorldState):
         super(GameState, self).__init__(GameEngine)
 
     def reset_world(self):
+        if self.DEBUG_MODE:
+            print("(-- Resetting world --)")
+
         super(GameState, self).reset_world()
 
         self.n_players = 0
@@ -176,10 +182,10 @@ class GameState(WorldState):
         self.score = 0
         self.level = 1
 
-        self.score_label = label.ValueLabel(self, "Score", 35, util.WHITE,
+        self.score_label = label.ValueLabel(self, "Score", 35, settings.WHITE,
                         [self.GameEngine.Surface.WIDTH / 2, 35])
 
-        self.level_label = label.ValueLabel(self, "Level", 35, util.WHITE,
+        self.level_label = label.ValueLabel(self, "Level", 35, settings.WHITE,
                         [self.GameEngine.Surface.WIDTH / 2, 65], self.level)
 
         for i in range(0, 1):
@@ -200,10 +206,10 @@ class GameState(WorldState):
     def update(self, delta):
         if self.player and not self.player.alive:
             self.player = None
-            label.Label(self, "GAME OVER", 60, util.RED,
+            label.Label(self, "GAME OVER", 60, settings.RED,
                         [self.GameEngine.Surface.WIDTH / 2, self.GameEngine.Surface.HEIGHT / 2])
             
-            button.ResetButton(self, "Try again?", 40, util.WHITE,
+            button.ResetButton(self, "Try again?", 30, settings.WHITE,
                    [self.GameEngine.Surface.WIDTH / 2, (self.GameEngine.Surface.HEIGHT / 2) + 35])
 
         if self.n_asteroids is 0:
@@ -216,7 +222,7 @@ class GameState(WorldState):
         super(GameState, self).update(delta)
 
     def render(self):
-        self.GameEngine.Surface.SURFACE.fill(util.BLACK)
+        self.GameEngine.Surface.SURFACE.fill(settings.BLACK)
         super(GameState, self).render()
 
 class PauseState(WorldState):
@@ -226,13 +232,13 @@ class PauseState(WorldState):
         self.setup_menu()
 
     def setup_menu(self):
-        label.Label(self, "PAUSE", 60, util.TERM_BLUE,
+        label.Label(self, "PAUSE", 60, settings.TERM_BLUE,
                             [self.GameEngine.Surface.WIDTH / 2, 50])
 
-        button.Button(self, "Continue", 35, util.WHITE,
+        button.Button(self, "Continue", 35, settings.WHITE,
                             [self.GameEngine.Surface.WIDTH / 2, 300])
 
-        button.ExitToMainMenuButton(self, "Exit to Main Menu", 35, util.WHITE,
+        button.ExitToMainMenuButton(self, "Exit to Main Menu", 35, settings.WHITE,
                             [self.GameEngine.Surface.WIDTH / 2, 350])
 
         x = 250

@@ -1,8 +1,8 @@
 import pygame
-import settings
 import math
 
-from utilites import util
+from vesta.config import settings
+from vesta.utilites import util
 
 class Objects(object):
     def __init__(self, world):
@@ -20,7 +20,7 @@ class Objects(object):
         self.alive = True
         self.scale = 10
         self.angle = 0
-        self.color = util.WHITE
+        self.color = settings.WHITE
         self.mouseover = False              #   is the mouse over the object?
         self.mouse_active_press = [False] * 3
         self.hover = False                 #   Can the object be hovered?
@@ -66,13 +66,13 @@ class Objects(object):
     def draw(self):
         if self.worldstate.DEBUG_MODE:
             pygame.draw.lines(self.GameEngine.Surface.SURFACE,
-                              util.GREEN, True, self.hitbox_pos)
+                              settings.GREEN, True, self.hitbox_pos)
             for i in xrange(0, (len(self.hitbox_pos)), 2):
                 if(i == 0):
-                    pygame.draw.circle(self.GameEngine.Surface.SURFACE, util.RED,
+                    pygame.draw.circle(self.GameEngine.Surface.SURFACE, settings.RED,
                                        (self.hitbox_pos[i]), 5, 0)
                 else:
-                    pygame.draw.circle(self.GameEngine.Surface.SURFACE, util.GREEN,
+                    pygame.draw.circle(self.GameEngine.Surface.SURFACE, settings.GREEN,
                                        (self.hitbox_pos[i]), 5, 0)
                         
     def kill(self):
@@ -83,18 +83,18 @@ class Objects(object):
 class Debug(Objects):
     def __init__(self, world):
         super(Debug, self).__init__(world)
-        self.n_DEBUG_objects = 0
+        self.worldstate.n_debug_objects += 1
 
         self.background_colour = settings.DEBUG_CONSOLE_BACKGROUND_COLOR
 
-        self.font = util.DEFAULT_FONT
+        self.font = settings.DEFAULT_FONT
         self.text_position = ((settings.DEBUG_CONSOLE_X + 10),(settings.DEBUG_CONSOLE_Y + 10))
         self.text_info = pygame.font.SysFont(self.font, 18)
         self.log_name = "Debug log"
         self.rendered_text = self.text_info.render(self.log_name, True, (255,255,255))
 
     def fixed_update(self):
-        self.log_data = self.GameEngine.DEBUG_INFO + ("World Objects: %s  |  Sprites: %s  |  GUI: %s" %(self.worldstate.n_objects, self.worldstate.n_sprite, self.worldstate.N_GUIobjects))
+        self.log_data = self.GameEngine.DEBUG_INFO + ("World Objects: %s  |  Sprites: %s  |  GUI: %s" %(self.worldstate.n_objects, self.worldstate.n_sprite, self.worldstate.n_gui_objects))
         self.log = ("%s:     %s" %(self.log_name, self.log_data))
         self.rendered_text = self.text_info.render(self.log, True, (255,255,255))
         super(Debug, self).fixed_update()
@@ -107,6 +107,10 @@ class Debug(Objects):
                         (settings.DEBUG_CONSOLE_X, settings.DEBUG_CONSOLE_Y, settings.DEBUG_CONSOLE_WIDTH, settings.DEBUG_CONSOLE_HEIGHT))
         #self.worldstate.world.SURFACE.blit(self.text, self.text_position)
         self.GameEngine.Surface.SURFACE.blit(self.rendered_text, self.text_position)
+
+    def kill(self):
+        self.worldstate.n_debug_objects -= 1
+        super(Sprite ,self).kill()
 
 class Sprite(Objects):
     def __init__(self, world):
@@ -133,12 +137,12 @@ class Sprite(Objects):
         super(Sprite, self).handle_input()
         if self.hover:
             if(self.mouseover):
-                self.color = util.TERM_BLUE
+                self.color = settings.TERM_BLUE
                 self.velocity = [0, 0]
                 if(self.mouse_active_press[0]):
                     self.position = self.GameEngine.mouse_pos
             else:
-                self.color = util.WHITE
+                self.color = settings.WHITE
 
     def update_collision_map(self):
         self.tested_collision = False
@@ -281,7 +285,7 @@ class GUI(Objects):
         self.angle = 0
         self.text = text
         self.fontsize = fontsize
-        self.font = util.DEFAULT_FONT
+        self.font = settings.DEFAULT_FONT
         self.GUI_size = [0, 0]
         self.GUI_center = [0, 0]
         self.position = position
@@ -294,7 +298,7 @@ class GUI(Objects):
         self.debug_info = "gui object"
 
         self.add_text(self.text, self.fontsize, self.color)
-        self.worldstate.N_GUIobjects += 1
+        self.worldstate.n_gui_objects += 1
 
         self.update_hit_box()
 
@@ -336,7 +340,7 @@ class GUI(Objects):
 
         if self.hover:
             if(self.mouseover):
-                self.add_text(self.text, self.fontsize, util.RED)
+                self.add_text(self.text, self.fontsize, settings.RED)
             else:
                 self.add_text(self.text, self.fontsize, self.color)
 
@@ -344,7 +348,7 @@ class GUI(Objects):
         pass
 
     def kill(self):
-        self.worldstate.N_GUIobjects -= 1
+        self.worldstate.n_gui_objects -= 1
         super(GUI ,self).kill()
 
     def draw(self):

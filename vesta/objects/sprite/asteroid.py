@@ -1,13 +1,13 @@
 import pygame
 import random
 
-from utilites import util
-from objects import objects
+from vesta.utilites import util
 
-from objects.sprite import bullet
-from objects.particle.explosion import Explosion
+from vesta.objects.objects import Sprite
+from vesta.objects.sprite.bullet import Bullet
+from vesta.objects.particle.explosion import Explosion
 
-class Asteroid(objects.Sprite):
+class Asteroid(Sprite):
     def __init__(self, world, scale, max_speed):
             super(Asteroid, self).__init__(world)
             world.n_asteroids += 1
@@ -50,7 +50,7 @@ class Asteroid(objects.Sprite):
         super(Asteroid, self).collide(other)
 
     def impact(self, other):
-        if isinstance(other, bullet.Bullet):
+        if isinstance(other, Bullet):
             # self.world.particle.explosion(10, self.position, self.velocity, 10, 35)
             self.worldstate.score += self.scale
             
